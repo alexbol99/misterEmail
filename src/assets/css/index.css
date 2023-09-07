@@ -6,9 +6,11 @@
 
 /* Pages */
 @import "./pages/home.css";
+@import "./pages/email-index.css";
 
 /* Components */
-@import "./cmps/app-header.css";
+@import "components/app-header.css";
+@import "components/email-preview-item.css";
 
 
 

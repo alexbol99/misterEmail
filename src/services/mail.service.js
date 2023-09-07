@@ -1,7 +1,7 @@
 import { storageService } from './async-storage.service.js'
 import { utilService } from './util.service.js'
 
-export const robotService = {
+export const mailService = {
     query,
     save,
     remove,
@@ -9,7 +9,7 @@ export const robotService = {
     createRobot,
 }
 
-const STORAGE_KEY = 'robots'
+const STORAGE_KEY = 'mails'
 
 _createRobots()
 

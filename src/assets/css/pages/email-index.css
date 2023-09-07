@@ -1,0 +1,151 @@
+
+/* EmailIndex page */
+.email-index {
+    position: relative;
+    height: 100%;
+    /*background-image: url("../../imgs/17.png");*/
+    /*background-size: 100%;*/
+    /*background-color: rgba(255, 255, 255, 0.3);*/
+}
+
+.email-index::after {
+    content: "";
+    background-image: url("../../imgs/17.png");
+    background-size: cover; /* Adjust to your needs */
+    background-repeat: no-repeat; /* Adjust to your needs */
+    height: 80%;
+    opacity: 0.1; /* Adjust the opacity as needed */
+    top: 100px;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    position: absolute;
+    z-index: -1;
+}
+
+.email-index header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.email-index main {
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.search-box {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    width: 200px;
+}
+
+.breadcrumbs {
+    display: flex;
+    gap: 10px;
+}
+
+.aside-menu {
+    background-color: #fff;
+    padding: 20px;
+    width: 250px;
+}
+
+.menu-items {
+    list-style-type: none;
+    padding: 0;
+}
+
+.menu-items li {
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+.compose-button {
+    padding: 15px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.items-list {
+    /*background-color: #fff;*/
+    background-color: rgba(255, 255, 255, 0);
+    padding: 20px;
+    margin-top: 20px;
+    width: 100%;
+}
+
+.list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sort-button {
+    background-color: #fff;
+    border: none;
+    cursor: pointer;
+    text-decoration: underline;
+    color: #007bff;
+}
+
+.pagination {
+    font-weight: bold;
+}
+
+.pagination-button {
+    background-color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+/* EmailDetails page */
+.horizontal-menu {
+    background-color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.action-button {
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.email-details h2 {
+    padding: 10px 20px;
+}
+
+.email-content {
+    background-color: #fff;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.attachments {
+    background-color: #fff;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.compose-popup {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
