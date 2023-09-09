@@ -10,6 +10,12 @@
 .email-preview-item:hover {
     background-color: lightblue;
 }
+
+.email-preview-select-checkbox {
+    position: relative;
+    left: -40px;
+}
+
 .email-preview-item-from {
     flex: 4;
 }

@@ -1,9 +1,11 @@
 import {useEffect, useState} from "react";
-import {mailService} from "../services/mail.service.js";
-import {useNavigate} from "react-router";
+import {mailStorageService} from "../services/mail-storage.service.js";
+import {useLocation, useNavigate} from "react-router";
+import {mailModelService} from "../services/mail-model.service.js";
 
 function EmailDetails({id}) {
     const [mail, setMail] = useState(null)
+    const {pathname} = useLocation()
     const navigate= useNavigate()
 
     useEffect(() => {
@@ -12,12 +14,12 @@ function EmailDetails({id}) {
 
     async function fetchMail(){
         try {
-            const mail = await mailService.getById(id)
+            const mail = await mailModelService.getById(id)
             setMail(mail)
         }
         catch(err) {
             console.error(err.message)
-            navigate("/inbox")
+            navigate(pathname.slice(0,pathname.indexOf(id)-1))
         }
     }
 
@@ -25,7 +27,7 @@ function EmailDetails({id}) {
         <div className="email-details">
             <nav className="horizontal-menu">
                 <button className="back-button"
-                        onClick={() => navigate("/inbox")}
+                        onClick={() => navigate(pathname.slice(0,pathname.indexOf(id)-1))}
                 >
                     Back
                 </button>

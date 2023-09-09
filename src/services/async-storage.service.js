@@ -1,3 +1,5 @@
+import {utilService} from "./util.service.js";
+
 export const storageService = {
     query,
     get,
@@ -7,7 +9,7 @@ export const storageService = {
 }
 
 function query(entityType, delay = 200) {
-    var entities = JSON.parse(localStorage.getItem(entityType)) || []
+    let entities = JSON.parse(localStorage.getItem(entityType)) || []
     return new Promise(resolve => setTimeout(() => resolve(entities), delay))
 }
 
@@ -21,10 +23,10 @@ function get(entityType, entityId) {
 
 function post(entityType, newEntity) {
     newEntity = { ...newEntity }
-    newEntity.id = _makeId()
+    newEntity.id = utilService.makeId(6)
     return query(entityType).then(entities => {
         entities.push(newEntity)
-        _save(entityType, entities)
+        utilService.saveToStorage(entityType, entities)
         return newEntity
     })
 }

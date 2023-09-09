@@ -1,10 +1,20 @@
 import React from "react";
-import {Link} from "react-router-dom";
+import {Link, useSearchParams} from "react-router-dom";
 
 function EmailIndexSideMenu(props) {
+    const [_, setSearchParams] = useSearchParams()
+
+    function onComposeButtonClick() {
+        setSearchParams({"compose":"new"})
+    }
+
     return (
         <aside className="aside-menu">
-            <button className="compose-button">Compose</button>
+            <button className="compose-button"
+                    onClick={onComposeButtonClick}
+            >
+                Compose
+            </button>
             <ul className="menu-items">
                 <li>
                     <Link to="/inbox">Inbox</Link>

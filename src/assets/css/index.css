@@ -11,6 +11,7 @@
 /* Components */
 @import "components/app-header.css";
 @import "components/email-preview-item.css";
+@import "components/email-compose.css";
 
 
 

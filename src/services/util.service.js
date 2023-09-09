@@ -15,7 +15,8 @@ function makeId(length = 5) {
 }
 
 function saveToStorage(key, value) {
-    localStorage[key] = JSON.stringify(value);
+    localStorage.setItem(key, JSON.stringify(value))
+    // localStorage[key] = JSON.stringify(value);
 }
 
 function loadFromStorage(key, defaultValue = null) {
