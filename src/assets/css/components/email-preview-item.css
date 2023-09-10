@@ -16,6 +16,11 @@
     left: -40px;
 }
 
+.email-preview-star {
+    position: relative;
+    left: -20px;
+}
+
 .email-preview-item-from {
     flex: 4;
 }

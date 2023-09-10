@@ -1,5 +1,7 @@
 import {useNavigate} from "react-router";
 import {useState} from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faStar} from "@fortawesome/free-solid-svg-icons";
 
 function EmailPreviewItem({pathname, mail, togglePreviewItemSelection}) {
     const [isSelected, setIsSelected] = useState(false)
@@ -21,6 +23,7 @@ function EmailPreviewItem({pathname, mail, togglePreviewItemSelection}) {
                    onClick={event => onSelectItemCheckboxClick(event, mail.id)}
                    defaultChecked={isSelected}
             />
+            <FontAwesomeIcon icon={faStar} className="email-preview-star" />
             <div className="email-preview-item-from">
                 {pathname === "/sent" ? `To:${mail.To.split('@')[0]}` : mail.From.split('@')[0]}
             </div>

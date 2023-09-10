@@ -8,6 +8,8 @@ import {mailModelService} from "../services/mail-model.service.js";
 
 import {mailStorageService} from "../services/mail-storage.service.js";
 import EmailCompose from "../components/EmailCompose.jsx";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faBars} from "@fortawesome/free-solid-svg-icons";
 
 function EmailIndex(props) {
     const [mails, setMails] = useState(null)
@@ -49,9 +51,17 @@ function EmailIndex(props) {
         <React.Fragment>
             <div className="email-index">
                 <header>
-                    <button className="main-menu-button">Main menu</button>
-                    <div className="logo">MisterEmail</div>
-                    <input type="text" className="search-box" placeholder="Search"/>
+                    <nav className="breadcrumbs">
+                        <button className="main-menu-button" title="Main menu">
+                            <FontAwesomeIcon icon={faBars} />
+                        </button>
+                        <div className="logo">MisterEmail</div>
+                    </nav>
+                    {/*<button className="main-menu-button" title="Main menu">*/}
+                    {/*     <FontAwesomeIcon icon={faBars} />*/}
+                    {/*</button>*/}
+                    {/*<div className="logo">MisterEmail</div>*/}
+                    <input type="text" className="search-box" placeholder="Search not implemented yet"/>
                     <nav className="breadcrumbs">
                         <a href="#">Help</a>
                         <a href="#">Settings</a>
