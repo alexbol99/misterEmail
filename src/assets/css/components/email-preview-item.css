@@ -8,7 +8,11 @@
 }
 
 .email-preview-item:hover {
-    background-color: lightblue;
+    background-color: #cfdcef;
+}
+
+.email-preview-item-unread {
+    background-color: rgba(207,220,239,50%);
 }
 
 .email-preview-select-checkbox {
@@ -21,6 +25,20 @@
     left: -20px;
 }
 
+.email-preview-star-unchecked {
+}
+
+.email-preview-star-unchecked::after {
+    content: "\2606";
+}
+
+.email-preview-star-checked {
+    color: gold;
+}
+
+.email-preview-star-checked::after {
+    content: "\2605";
+}
 .email-preview-item-from {
     flex: 4;
 }

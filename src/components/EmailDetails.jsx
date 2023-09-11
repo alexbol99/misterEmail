@@ -1,11 +1,10 @@
 import {useEffect, useState} from "react";
-import {mailStorageService} from "../services/mail-storage.service.js";
 import {useLocation, useNavigate} from "react-router";
 import {mailModelService} from "../services/mail-model.service.js";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faDownload, faLongArrowAltLeft, faTrash, faEnvelopeOpen} from "@fortawesome/free-solid-svg-icons";
 
-function EmailDetails({id}) {
+function EmailDetails({id, toogleIsViewed}) {
     const [mail, setMail] = useState(null)
     const {pathname} = useLocation()
     const navigate= useNavigate()
@@ -39,7 +38,9 @@ function EmailDetails({id}) {
                 <button className="action-button" title="Move to trash folder">
                     <FontAwesomeIcon icon={faTrash} />
                 </button>
-                <button className="action-button" title="Mark as unread">
+                <button className="action-button" title="Mark as unread"
+                        onClick={() => toogleIsViewed(mail)}
+                >
                     <FontAwesomeIcon icon={faEnvelopeOpen} />
                 </button>
             </nav>
