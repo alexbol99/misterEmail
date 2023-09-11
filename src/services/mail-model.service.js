@@ -20,6 +20,7 @@ export const mailModelService = {
 async function query(filterBy = defaultFilterBy ) {
     let mails = await mailStorageService.get()
     let filteredMails = filterByPathName(mails, filterBy.pathname)
+    if (filteredMails.length === 0) return []
     filteredMails = filterByPage(filteredMails, filterBy.pageNum)
     let filteredAndSortedMailed = sortByDate(filteredMails)
     return filteredAndSortedMailed

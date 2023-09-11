@@ -39,18 +39,20 @@ function EmailPreviewList({mails, pathname, pageNum,
                 }
                 <button className="sort-button">Sort By Date</button>
                 <button className="sort-button">Sort By Subject</button>
-                {paginationParams &&
+                {paginationParams && mails.length > 0 &&
                     <div className="pagination">
                         {`${paginationParams.start+1}-${paginationParams.end} of ${paginationParams.total}`}
                     </div>}
-                {paginationParams && <button className="pagination-button"
+                {paginationParams && mails.length > 0 &&
+                    <button className="pagination-button"
                                              onClick={() => setPagination(-1)}
-                >
+                    >
                     &#8249;
                 </button>}
-                {paginationParams && <button className="pagination-button"
+                {paginationParams && mails.length > 0 &&
+                    <button className="pagination-button"
                                              onClick={() => setPagination(1)}
-                >
+                    >
                     &#8250;
                 </button>}
             </div>
