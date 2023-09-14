@@ -9,21 +9,22 @@ import {mailModelService} from "../services/mail-model.service.js";
 import EmailCompose from "../components/EmailCompose.jsx";
 import Header from "../components/Header.jsx";
 
-function EmailIndex(props) {
+function EmailIndex() {
     const [mails, setMails] = useState(null)
     const [pageNum, setPageNum] = useState(0)
     const params = useParams()
     const {pathname} = useLocation()
     const [searchParams, setSearchParams] = useSearchParams()
     const [filter, setFilter] = useState("")
+    const [sortBy, setSortBy] = useState(mailModelService.defaultSortBy)
 
     useEffect(() => {
         fetchMails()
-    }, [pathname, pageNum, filter])
+    }, [pathname, pageNum, filter, sortBy])
 
     async function fetchMails() {
         try {
-            const filteredMails = await mailModelService.query(getFilterBy())
+            const filteredMails = await mailModelService.query(getFilterBy(), sortBy)
             setMails(filteredMails)
         } catch (err) {
             console.error(err.message)
@@ -89,6 +90,28 @@ function EmailIndex(props) {
         setFilter(event.target.value)
     }
 
+    function toggleSortByDate() {
+        setSortBy(
+            prevSortBy => {
+                return {...prevSortBy,
+                    date: true,
+                    dateSortAscending: !prevSortBy.dateSortAscending,
+                    subject: false
+                }
+            })
+    }
+
+    function toggleSortBySubject() {
+        setSortBy(
+            prevSortBy => {
+                return {...prevSortBy,
+                    date: false,
+                    subject: true,
+                    subjectSortAscending: !prevSortBy.subjectSortAscending
+                }
+            })
+    }
+
     return (
         <React.Fragment>
             <div className="email-index">
@@ -109,6 +132,8 @@ function EmailIndex(props) {
                                                    toggleSelectedItemsIsDeleted={toggleSelectedItemsIsDeleted}
                                                    deletedSelectedItems={deletedSelectedItems}
                                                    setPagination={setPagination}
+                                                   toggleSortByDate={toggleSortByDate}
+                                                   toggleSortBySubject={toggleSortBySubject}
                         />
                     }
                 </main>

@@ -2,29 +2,40 @@ import {userService} from "./user.service.js";
 import {mailStorageService} from "./mail-storage.service.js";
 
 const STORAGE_KEY = 'mails'
-const numOnPage= 7
+const numOnPage= 10
 const defaultFilterBy = {
     pathname: "/inbox",
-    pageNum: 0
+    pageNum: 0,
+    filter: ""
 }
+
+const defaultSortBy = {
+    date: true,
+    dateSortAscending: false,
+    subject: false,
+    subjectSortAscending: true
+}
+
 export const mailModelService = {
     query,
     remove,
     getById,
     create,
     update,
-    getPaginationParams
+    getPaginationParams,
+    defaultSortBy,
+    defaultFilterBy
 }
 
 
-async function query(filterBy = defaultFilterBy ) {
+async function query(filterBy = defaultFilterBy, sortBy = defaultSortBy ) {
     let mails = await mailStorageService.get()
     let filteredMails = filterByPathName(mails, filterBy.pathname)
     if (filteredMails.length === 0) return []
-    filteredMails = filterByPage(filteredMails, filterBy.pageNum)
-    filteredMails = filterByContext(filteredMails, filterBy.filter)
-    let filteredAndSortedMailed = sortByDate(filteredMails)
-    return filteredAndSortedMailed
+    let sortedMails = sortByAny(filteredMails, sortBy)
+    let filteredAndSortedMails = filterByPage(sortedMails, filterBy.pageNum)
+    filteredAndSortedMails = filterByContext(filteredAndSortedMails, filterBy.filter)
+    return filteredAndSortedMails
 }
 
 async function getById(id) {
@@ -91,8 +102,47 @@ function filterByPage(mails, pageNum) {
     return mails.slice(start, end)
 }
 
-function sortByDate(mails) {
-    return mails.sort((a,b) => new Date(b.Date) - new Date(a.Date))
+function sortByAny(mails, sortBy) {
+    let sorter
+    if (sortBy.date) {
+        sorter = sortBy.dateSortAscending ? dateSorterAscending : dateSorterDescending
+    }
+
+    if (sortBy.subject) {
+        sorter = sortBy.subjectSortAscending ? subjectSorterAscending : subjectSorterDescending
+    }
+
+    return mails.sort(sorter)
+}
+function dateSorterAscending(a,b) {return new Date(a.Date) - new Date(b.Date)}
+function dateSorterDescending(a,b) {return new Date(b.Date) - new Date(a.Date)}
+
+function sortByDate(mails, sorter = dateSorterAscending) {
+    return mails.sort(sorter)
+}
+
+function subjectSorterAscending(a, b) {
+    if (a.Subject < b.Subject) {
+        return 1
+    }
+    else if (b.Subject < a.Subject) {
+        return -1
+    }
+    return 0
+}
+
+function subjectSorterDescending(a, b) {
+    if (a.Subject < b.Subject) {
+        return -1
+    }
+    else if (b.Subject < a.Subject) {
+        return 1
+    }
+    return 0
+}
+
+function sortBySubject(mails, sorter = subjectSorterAscending) {
+    return mails.sort(sorter)
 }
 
 function filterByContext(mails, str) {

@@ -7,7 +7,7 @@ import {useEffect, useState} from "react";
 function EmailPreviewList({mails, pathname, pageNum,
                               toggleIsSelected, toggleIsStarred, toogleIsViewed,
                               toggleSelectedItemsIsDeleted, deletedSelectedItems,
-                              setPagination
+                              setPagination, toggleSortByDate, toggleSortBySubject
                           }) {
     const [paginationParams, setPaginationParams] = useState(null)
     useEffect(() => {
@@ -37,8 +37,19 @@ function EmailPreviewList({mails, pathname, pageNum,
                         <FontAwesomeIcon icon={faTrashRestore}/>
                     </button>
                 }
-                <button className="sort-button">Sort By Date</button>
-                <button className="sort-button">Sort By Subject</button>
+                <button className="sort-button"
+                        title="Sort by date"
+                        onClick={toggleSortByDate}
+
+                >
+                    Sort By Date
+                </button>
+                <button className="sort-button"
+                        title="Sort by subject"
+                        onClick={toggleSortBySubject}
+                >
+                    Sort By Subject
+                </button>
                 {paginationParams && mails.length > 0 &&
                     <div className="pagination">
                         {`${paginationParams.start+1}-${paginationParams.end} of ${paginationParams.total}`}
