@@ -22,6 +22,7 @@ async function query(filterBy = defaultFilterBy ) {
     let filteredMails = filterByPathName(mails, filterBy.pathname)
     if (filteredMails.length === 0) return []
     filteredMails = filterByPage(filteredMails, filterBy.pageNum)
+    filteredMails = filterByContext(filteredMails, filterBy.filter)
     let filteredAndSortedMailed = sortByDate(filteredMails)
     return filteredAndSortedMailed
 }
@@ -94,6 +95,13 @@ function sortByDate(mails) {
     return mails.sort((a,b) => new Date(b.Date) - new Date(a.Date))
 }
 
+function filterByContext(mails, str) {
+    return mails.filter(mail =>
+        mail.To.includes(str) ||
+        mail.From.includes(str) ||
+        mail.Body.includes(str)
+    )
+}
 function createNewMail(mailTo="", subject="", body="" ) {
     return {
         id: null,

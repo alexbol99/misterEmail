@@ -2,13 +2,12 @@ import React, {useEffect, useState} from "react";
 import {useLocation, useParams} from "react-router";
 import {useSearchParams} from "react-router-dom";
 import EmailPreviewList from "../components/EmailPreviewList.jsx";
-import EmailIndexSideMenu from "../components/EmailIndexSideMenu.jsx";
+import AsideMenu from "../components/AsideMenu.jsx";
 import EmailDetails from "../components/EmailDetails.jsx";
 import {mailModelService} from "../services/mail-model.service.js";
 
 import EmailCompose from "../components/EmailCompose.jsx";
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import {faBars} from "@fortawesome/free-solid-svg-icons";
+import Header from "../components/Header.jsx";
 
 function EmailIndex(props) {
     const [mails, setMails] = useState(null)
@@ -16,18 +15,15 @@ function EmailIndex(props) {
     const params = useParams()
     const {pathname} = useLocation()
     const [searchParams, setSearchParams] = useSearchParams()
+    const [filter, setFilter] = useState("")
 
     useEffect(() => {
-        const filterBy = {
-            pathname: pathname,
-            pageNum: pageNum
-        }
-        fetchMails(filterBy)
-    }, [pathname, pageNum])
+        fetchMails()
+    }, [pathname, pageNum, filter])
 
-    async function fetchMails(filterBy) {
+    async function fetchMails() {
         try {
-            const filteredMails = await mailModelService.query(filterBy)
+            const filteredMails = await mailModelService.query(getFilterBy())
             setMails(filteredMails)
         } catch (err) {
             console.error(err.message)
@@ -36,6 +32,13 @@ function EmailIndex(props) {
         }
     }
 
+    function getFilterBy() {
+        return {
+            pathname,
+            pageNum,
+            filter
+        }
+    }
     function setPagination(dir) {
         setPageNum(prevPageNum => (prevPageNum + dir < 0 ? prevPageNum : prevPageNum + dir))
     }
@@ -51,13 +54,18 @@ function EmailIndex(props) {
         await mailModelService.update(updatedMail)
     }
 
+    async function toggleIsDeleted(mail) {
+        const updatedMail = {...mail, isDeleted: !mail.isDeleted}
+        await mailModelService.update(updatedMail)
+    }
+
     async function toggleIsStarred(starredMail) {
         const updatedMail = {...starredMail, isStarred: !starredMail.isStarred}
         setMails(prevMails => prevMails.map(mail =>
             mail === starredMail ? updatedMail : mail
         ))
         await mailModelService.update(updatedMail)
-        fetchMails({pathname: pathname, pageNum: pageNum})
+        fetchMails()
     }
 
     async function toggleSelectedItemsIsDeleted() {
@@ -65,7 +73,7 @@ function EmailIndex(props) {
         for (let mail of selectedMails) {
             const updatedMail = {...mail, isSelected: false, isDeleted: !mail.isDeleted}
             await mailModelService.update(updatedMail)
-            fetchMails({pathname: pathname, pageNum: pageNum})
+            fetchMails()
         }
     }
 
@@ -73,32 +81,24 @@ function EmailIndex(props) {
         const selectedMails = mails.filter(mail => mail.isSelected)
         for (let mail of selectedMails) {
             await mailModelService.remove(mail.id)
-            fetchMails({pathname: pathname, pageNum: pageNum})
+            fetchMails()
         }
+    }
+
+    function setContextFilter(event) {
+        setFilter(event.target.value)
     }
 
     return (
         <React.Fragment>
             <div className="email-index">
-                <header>
-                    <nav className="breadcrumbs">
-                        <button className="main-menu-button" title="Main menu">
-                            <FontAwesomeIcon icon={faBars}/>
-                        </button>
-                        <div className="logo">MisterEmail</div>
-                    </nav>
-                    <input type="text" className="search-box" placeholder="Search not implemented yet"/>
-                    <nav className="breadcrumbs">
-                        <a href="#">Help</a>
-                        <a href="#">Settings</a>
-                        <a href="#">User</a>
-                    </nav>
-                </header>
+                <Header setContextFilter={setContextFilter} />
                 <main>
-                    <EmailIndexSideMenu/>
+                    <AsideMenu />
                     {params.mailId ?
                         <EmailDetails id={params.mailId}
                                       toogleIsViewed={toogleIsViewed}
+                                      toggleIsDeleted={toggleIsDeleted}
                         /> :
                         mails && <EmailPreviewList mails={mails}
                                                    pathname={pathname}

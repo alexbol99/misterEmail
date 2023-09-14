@@ -36,6 +36,8 @@
     border: 1px solid #ccc;
     border-radius: 3px;
     resize: vertical;
+    font-family: auto;
+    font-size: large;
 }
 
 .send-button {

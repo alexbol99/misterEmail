@@ -27,13 +27,13 @@ function EmailPreviewList({mails, pathname, pageNum,
                             deletedSelectedItems :
                             toggleSelectedItemsIsDeleted}
                         title={pathname==="/trash" ?
-                            "Delete selected mails" :
+                            "Completely delete selected mails" :
                             "Move selected mails to Trash folder"}>
                     <FontAwesomeIcon icon={faTrash} />
                 </button>
                 {pathname === "/trash" &&
                     <button className="" onClick={toggleSelectedItemsIsDeleted}
-                            title="Restore selected mails">
+                            title="Restore selected mails from Trash folder">
                         <FontAwesomeIcon icon={faTrashRestore}/>
                     </button>
                 }
