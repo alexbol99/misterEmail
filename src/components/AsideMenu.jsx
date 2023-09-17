@@ -1,5 +1,5 @@
 import React from "react";
-import {Link, useSearchParams} from "react-router-dom";
+import {Link, NavLink, useSearchParams} from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faFileText, faInbox, faPaperPlane, faStar, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {useLocation} from "react-router";
@@ -34,9 +34,9 @@ const menu = [
 function MenuItem({to, name, icon, selected}) {
     return (
         <li className={selected ? "menu-item-selected" : ""}>
-            <Link to={to} title={name} >
+            <NavLink to={to} title={name} >
                 <FontAwesomeIcon icon={icon} />&nbsp; {name}
-            </Link>
+            </NavLink>
         </li>
     )
 

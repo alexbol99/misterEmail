@@ -1,10 +1,8 @@
 import {useNavigate} from "react-router";
-import {useState} from "react";
 import {useSearchParams} from "react-router-dom";
 
 function EmailPreviewItem({pathname, mail,
                               toggleIsSelected, toggleIsStarred, toogleIsViewed}) {
-    const [isSelected, setIsSelected] = useState(false)
     const navigate = useNavigate()
     const [_, setSearchParams] = useSearchParams()
 
@@ -37,7 +35,8 @@ function EmailPreviewItem({pathname, mail,
             <input className="email-preview-select-checkbox"
                    type="checkbox"
                    onClick={event => onSelectItemCheckboxClick(event, mail.id)}
-                   defaultChecked={isSelected}
+                   onChange={event => onSelectItemCheckboxClick(event, mail.id)}
+                   checked={mail.isSelected}
             />
             <span className={`email-preview-star ${starCheckStyle}`}
                   title={mail.isStarred ? "Starred" : "Not starred"}

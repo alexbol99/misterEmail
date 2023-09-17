@@ -30,6 +30,11 @@ function EmailDetails({id, toogleIsViewed, toggleIsDeleted}) {
         }
     }
 
+    async function onMarkAsUnreadClick() {
+        await toogleIsViewed(mail)
+        navigate(pathname.slice(0,pathname.indexOf(id)-1))
+    }
+
     if (!mail) return "Loading mail details"
 
     return (
@@ -52,7 +57,7 @@ function EmailDetails({id, toogleIsViewed, toggleIsDeleted}) {
                     />
                 </button>
                 <button className="action-button" title="Mark as unread"
-                        onClick={() => toogleIsViewed(mail)}
+                        onClick={() => onMarkAsUnreadClick()}
                 >
                     <FontAwesomeIcon icon={faEnvelopeOpen} />
                 </button>

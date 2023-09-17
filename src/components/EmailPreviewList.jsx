@@ -5,9 +5,10 @@ import {mailModelService} from "../services/mail-model.service.js";
 import {useEffect, useState} from "react";
 
 function EmailPreviewList({mails, pathname, pageNum,
-                              toggleIsSelected, toggleIsStarred, toogleIsViewed,
+                              toggleSelectAll, toggleIsSelected, toggleIsStarred, toogleIsViewed,
                               toggleSelectedItemsIsDeleted, deletedSelectedItems,
-                              setPagination, toggleSortByDate, toggleSortBySubject
+                              onPrevPageButtonClick, onNextPageButtonClick,
+                              toggleSortByDate, toggleSortBySubject
                           }) {
     const [paginationParams, setPaginationParams] = useState(null)
     useEffect(() => {
@@ -21,7 +22,10 @@ function EmailPreviewList({mails, pathname, pageNum,
     return (
         <div className="items-list">
             <div className="list-header">
-                <input type="checkbox" className="select-all-checkbox"/>
+                <input type="checkbox"
+                       className="select-all-checkbox"
+                       onClick={(event) => toggleSelectAll(event.target.checked)}
+                />
                 <button className=""
                         onClick={pathname==="/trash" ?
                             deletedSelectedItems :
@@ -56,13 +60,13 @@ function EmailPreviewList({mails, pathname, pageNum,
                     </div>}
                 {paginationParams && mails.length > 0 &&
                     <button className="pagination-button"
-                                             onClick={() => setPagination(-1)}
+                            onClick={() => onPrevPageButtonClick()}
                     >
                     &#8249;
                 </button>}
                 {paginationParams && mails.length > 0 &&
                     <button className="pagination-button"
-                                             onClick={() => setPagination(1)}
+                            onClick={() => onNextPageButtonClick()}
                     >
                     &#8250;
                 </button>}

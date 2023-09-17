@@ -33,9 +33,9 @@ async function query(filterBy = defaultFilterBy, sortBy = defaultSortBy ) {
     let filteredMails = filterByPathName(mails, filterBy.pathname)
     if (filteredMails.length === 0) return []
     let sortedMails = sortByAny(filteredMails, sortBy)
-    let filteredAndSortedMails = filterByPage(sortedMails, filterBy.pageNum)
+    let [filteredAndSortedMails, lastPage] = filterByPage(sortedMails, filterBy.pageNum)
     filteredAndSortedMails = filterByContext(filteredAndSortedMails, filterBy.filter)
-    return filteredAndSortedMails
+    return [filteredAndSortedMails, lastPage]
 }
 
 async function getById(id) {
@@ -97,9 +97,8 @@ function pageStartEnd(mails, pageNum) {
 
 function filterByPage(mails, pageNum) {
     const [start, end] = pageStartEnd(mails, pageNum)
-    if (start >= mails.length)
-        throw new Error("Pagination error")
-    return mails.slice(start, end)
+    const lastPage = start + numOnPage >= mails.length
+    return [mails.slice(start, end), lastPage]
 }
 
 function sortByAny(mails, sortBy) {

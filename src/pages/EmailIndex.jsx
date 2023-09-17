@@ -11,43 +11,65 @@ import Header from "../components/Header.jsx";
 
 function EmailIndex() {
     const [mails, setMails] = useState(null)
-    const [pageNum, setPageNum] = useState(0)
     const params = useParams()
     const {pathname} = useLocation()
     const [searchParams, setSearchParams] = useSearchParams()
-    const [filter, setFilter] = useState("")
+    const [filterBy, setFilterBy] = useState(mailModelService.defaultFilterBy)
     const [sortBy, setSortBy] = useState(mailModelService.defaultSortBy)
+    const [lastPage, setLastPage] = useState(false)
+
+    useEffect(() => {
+        setFilterBy(prevFilterBy => {
+            return {...prevFilterBy, pathname: pathname}
+        })
+    }, [pathname])
 
     useEffect(() => {
         fetchMails()
-    }, [pathname, pageNum, filter, sortBy])
+    }, [filterBy, sortBy])
 
     async function fetchMails() {
         try {
-            const filteredMails = await mailModelService.query(getFilterBy(), sortBy)
+            const [filteredMails, lastPage] = await mailModelService.query(filterBy, sortBy)
             setMails(filteredMails)
+            setLastPage(lastPage)
         } catch (err) {
             console.error(err.message)
-            if (err.message === "Pagination error")
-                setPageNum(prevPageNum => Math.max(prevPageNum - 1, 0))
+            if (err.message === "Pagination error") {
+                setFilterBy(prevFilterBy => {
+                    return {...prevFilterBy, pageNum: Math.max(prevFilterBy.pageNum - 1, 0)}
+                })
+            }
         }
     }
 
-    function getFilterBy() {
-        return {
-            pathname,
-            pageNum,
-            filter
+    function setPrevPage(dir) {
+        if (filterBy.pageNum > 0) {
+            setFilterBy(prevFilterBy => {
+                return {
+                    ...prevFilterBy, pageNum: prevFilterBy.pageNum -1
+                }
+            })
         }
     }
-    function setPagination(dir) {
-        setPageNum(prevPageNum => (prevPageNum + dir < 0 ? prevPageNum : prevPageNum + dir))
-    }
 
+    function setNextPage() {
+        if (!lastPage) {
+            setFilterBy(prevFilterBy => {
+                return {...prevFilterBy, pageNum: prevFilterBy.pageNum + 1
+                }
+            })
+        }
+    }
     function toggleIsSelected(id) {
         setMails(prevMails => prevMails.map(mail =>
             mail.id === id ? {...mail, isSelected: !mail.isSelected} : mail
         ))
+    }
+
+    async function toggleSelectAll(checked) {
+        setMails(prevMails => prevMails.map(mail => {return {...mail, isSelected: checked}}))
+        // await mailModelService.update(updatedMail)
     }
 
     async function toogleIsViewed(viewedMail) {
@@ -87,7 +109,9 @@ function EmailIndex() {
     }
 
     function setContextFilter(event) {
-        setFilter(event.target.value)
+        setFilterBy((prevFilterBy => {
+            return {...prevFilterBy, filter: event.target.value}
+        }))
     }
 
     function toggleSortByDate() {
@@ -124,14 +148,16 @@ function EmailIndex() {
                                       toggleIsDeleted={toggleIsDeleted}
                         /> :
                         mails && <EmailPreviewList mails={mails}
-                                                   pathname={pathname}
-                                                   pageNum={pageNum}
+                                                   pathname={filterBy.pathname}
+                                                   pageNum={filterBy.pageNum}
+                                                   toggleSelectAll={toggleSelectAll}
                                                    toggleIsSelected={toggleIsSelected}
                                                    toggleIsStarred={toggleIsStarred}
                                                    toogleIsViewed={toogleIsViewed}
                                                    toggleSelectedItemsIsDeleted={toggleSelectedItemsIsDeleted}
                                                    deletedSelectedItems={deletedSelectedItems}
-                                                   setPagination={setPagination}
+                                                   onPrevPageButtonClick={setPrevPage}
+                                                   onNextPageButtonClick={setNextPage}
                                                    toggleSortByDate={toggleSortByDate}
                                                    toggleSortBySubject={toggleSortBySubject}
                         />

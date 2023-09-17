@@ -6,6 +6,7 @@
     align-items: center;
     padding: 10px 20px;
     cursor: pointer;
+    background-color: rgba(207,220,239,30%);
 }
 
 .email-preview-item:hover {
@@ -13,7 +14,8 @@
 }
 
 .email-preview-item-unread {
-    background-color: rgba(207,220,239,50%);
+    background-color: rgba(255,255,255,100%);
+    font-weight: bold;
 }
 
 .email-preview-select-checkbox {
