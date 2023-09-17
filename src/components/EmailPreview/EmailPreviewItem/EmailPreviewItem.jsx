@@ -1,5 +1,6 @@
 import {useNavigate} from "react-router";
 import {useSearchParams} from "react-router-dom";
+import styles from "./EmailPreviewItem.module.css";
 
 function EmailPreviewItem({pathname, mail,
                               toggleIsSelected, toggleIsStarred, toogleIsViewed}) {
@@ -26,29 +27,29 @@ function EmailPreviewItem({pathname, mail,
         toggleIsStarred(id)
     }
 
-    const itemIsViewed = mail.isViewed ? "" : "email-preview-item-unread"
-    const starCheckStyle = mail.isStarred ? "email-preview-star-checked" : "email-preview-star-unchecked"
+    const itemIsViewed = mail.isViewed ? "" : styles.emailPreviewItemUnread;
+    const starCheckStyle = mail.isStarred ? styles.emailPreviewStarChecked : styles.emailPreviewStarUnchecked;
 
     return (
-        <article className={`email-preview-item ${itemIsViewed}`}
+        <article className={`${styles.emailPreviewItem} ${itemIsViewed}`}
                  onClick={() => onPreviewItemClick(mail)}>
-            <input className="email-preview-select-checkbox"
+            <input className={styles.emailPreviewSelectCheckbox}
                    type="checkbox"
                    onClick={event => onSelectItemCheckboxClick(event, mail.id)}
                    onChange={event => onSelectItemCheckboxClick(event, mail.id)}
                    checked={mail.isSelected}
             />
-            <span className={`email-preview-star ${starCheckStyle}`}
+            <span className={`${styles.emailPreviewStar} ${starCheckStyle}`}
                   title={mail.isStarred ? "Starred" : "Not starred"}
                   onClick={event => onStarMailClick(event, mail)}
             ></span>
-            <div className="email-preview-item-from">
+            <div className={styles.emailPreviewItemFrom}>
                 {pathname === "/sent" ? `To:${mail.To.split('@')[0]}` : mail.From.split('@')[0]}
             </div>
-            <div className="email-preview-item-content">
+            <div className={styles.emailPreviewItemContent}>
                 {mail.Subject}
             </div>
-            <div className="email-preview-item-date">
+            <div className={styles.emailPreviewItemDate}>
                 {new Date(mail.Date).toLocaleDateString()}
             </div>
         </article>

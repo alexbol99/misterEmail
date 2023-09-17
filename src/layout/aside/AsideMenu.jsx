@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faFileText, faInbox, faPaperPlane, faStar, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {useLocation} from "react-router";
 
+import styles from "./AsideMenu.module.css";
+
 const menu = [
     {
         to: "/inbox",
@@ -33,7 +35,7 @@ const menu = [
 ]
 function MenuItem({to, name, icon, selected}) {
     return (
-        <li className={selected ? "menu-item-selected" : ""}>
+        <li className={selected ? styles.menuItemSelected : ""}>
             <NavLink to={to} title={name} >
                 <FontAwesomeIcon icon={icon} />&nbsp; {name}
             </NavLink>
@@ -51,12 +53,12 @@ function AsideMenu(props) {
     }
 
     return (
-        <aside className="aside-menu">
-            <button className="compose-button"
+        <aside className={styles.asideMenu}>
+            <button className={styles.composeButton}
                     onClick={onComposeButtonClick}>
                 Compose
             </button>
-            <ul className="menu-items">
+            <ul className={styles.menuItems}>
                 {menu.map(item =>
                     <MenuItem
                         key={item.name}

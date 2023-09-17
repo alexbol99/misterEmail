@@ -1,5 +1,4 @@
-
-.email-preview-item {
+.emailPreviewItem {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -9,47 +8,47 @@
     background-color: rgba(207,220,239,30%);
 }
 
-.email-preview-item:hover {
+.emailPreviewItem:hover {
     background-color: #cfdcef;
 }
 
-.email-preview-item-unread {
+.emailPreviewItemUnread {
     background-color: rgba(255,255,255,100%);
     font-weight: bold;
 }
 
-.email-preview-select-checkbox {
+.emailPreviewSelectCheckbox {
     position: relative;
     left: -40px;
 }
 
-.email-preview-star {
+.emailPreviewStar {
     position: relative;
     left: -20px;
 }
 
-.email-preview-star-unchecked {
+.emailPreviewStarUnchecked {
 }
 
-.email-preview-star-unchecked::after {
+.emailPreviewStarUnchecked::after {
     content: "\2606";
 }
 
-.email-preview-star-checked {
+.emailPreviewStarChecked {
     color: gold;
 }
 
-.email-preview-star-checked::after {
+.emailPreviewStarChecked::after {
     content: "\2605";
 }
-.email-preview-item-from {
+.emailPreviewItemFrom {
     flex: 4;
 }
 
-.email-preview-item-content {
+.emailPreviewItemContent {
     flex: 8;
 }
 
-.email-preview-item-date {
+.emailPreviewItemDate {
     flex: 2;
 }

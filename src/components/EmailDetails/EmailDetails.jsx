@@ -1,14 +1,14 @@
 import {useEffect, useState} from "react";
 import {useLocation, useNavigate} from "react-router";
-import {mailModelService} from "../services/mail-model.service.js";
+import {mailModelService} from "../../services/mail-model.service.js";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
-    faDownload,
     faLongArrowAltLeft,
     faTrash,
     faEnvelopeOpen,
     faTrashRestore
 } from "@fortawesome/free-solid-svg-icons";
+import styles from "./EmailDetails.module.css"
 
 function EmailDetails({id, toogleIsViewed, toggleIsDeleted}) {
     const [mail, setMail] = useState(null)
@@ -38,7 +38,7 @@ function EmailDetails({id, toogleIsViewed, toggleIsDeleted}) {
     if (!mail) return "Loading mail details"
 
     return (
-        <div className="email-details">
+        <div className={styles["email-details"]}>
             <nav className="breadcrumbs">
                 <button className="back-button" title="Back to the previous page"
                         onClick={() => navigate(pathname.slice(0,pathname.indexOf(id)-1))}
@@ -48,7 +48,7 @@ function EmailDetails({id, toogleIsViewed, toggleIsDeleted}) {
                 {/*<button className="action-button" title="Download">*/}
                 {/*    <FontAwesomeIcon icon={faDownload} />*/}
                 {/*</button>*/}
-                <button className="action-button"
+                <button className={styles["action-button"]}
                         title={mail.isDeleted ? "Restore from trash folder" : "Move to trash folder"}
                         onClick={() => toggleIsDeleted(mail)}
                 >
@@ -56,7 +56,7 @@ function EmailDetails({id, toogleIsViewed, toggleIsDeleted}) {
                         icon={mail.isDeleted ? faTrashRestore : faTrash}
                     />
                 </button>
-                <button className="action-button" title="Mark as unread"
+                <button className={styles["action-button"]} title="Mark as unread"
                         onClick={() => onMarkAsUnreadClick()}
                 >
                     <FontAwesomeIcon icon={faEnvelopeOpen} />
@@ -65,11 +65,11 @@ function EmailDetails({id, toogleIsViewed, toggleIsDeleted}) {
 
             <h2>{mail?.Subject}</h2>
 
-            <div className="email-content">
+            <div className={styles["email-content"]}>
                 {mail?.Body}
             </div>
 
-            <section className="attachments">
+            <section className={styles["attachments"]}>
             </section>
         </div>
     );

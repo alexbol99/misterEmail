@@ -1,16 +1,16 @@
 /* Welcome page */
 .welcome {
-    display: flex;
+    display: grid;
     justify-content: center;
     align-items: center;
     height: 100vh;
 }
 
-.welcome-container {
+.welcomeContainer {
     text-align: center;
 }
 
-.go-to-app-button {
+.goToAppButton {
     padding: 10px 20px;
     background-color: #007bff;
     color: #fff;

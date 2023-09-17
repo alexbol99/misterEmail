@@ -1,13 +1,20 @@
 
 /* EmailIndex page */
-.email-index {
+.emailIndex {
     position: relative;
     height: 100%;
+    display: grid;
+    grid-template-columns: minmax(200px,1fr) 5fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+            "h h"
+            "a m";
+    gap: 10px;
 }
 
-.email-index::after {
+.emailIndex::after {
     content: "";
-    background-image: url("../../imgs/17.png");
+    background-image: url("../../assets/imgs/17.png");
     background-size: cover; /* Adjust to your needs */
     background-repeat: no-repeat; /* Adjust to your needs */
     height: 80%;
@@ -20,78 +27,23 @@
     z-index: -1;
 }
 
-.email-index header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
+.emailIndex header {
+    grid-area: h;
 }
 
-.email-index main {
-    display: flex;
-    flex-direction: row;
-    align-items: start;
+.emailIndex aside {
+    grid-area: a;
+    height: 100%;
+    background-color: transparent;
 }
 
-.logo {
-    font-size: 24px;
-    font-weight: bold;
+.emailIndex main {
+    grid-area: m;
+    height: 100%;
+    /*background-color: gold;*/
 }
 
-.search-box {
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    width: 200px;
-}
-
-.breadcrumbs {
-    display: flex;
-    gap: 20px;
-}
-
-.aside-menu {
-    background-color: #fff;
-    padding: 20px;
-    width: 250px;
-}
-
-.menu-items {
-    list-style-type: none;
-    padding: 0;
-}
-
-.menu-items li {
-    margin-bottom: 10px;
-    padding: 10px;
-    cursor: pointer;
-}
-
-.menu-items li:hover {
-    background-color: rgba(207,220,239,50%);
-}
-
-.menu-items a {
-    display: block;
-    width: 100%;
-    text-decoration: none;
-}
-
-.menu-item-selected {
-    background-color: rgba(207,220,239,50%);
-}
-
-.compose-button {
-    padding: 15px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.items-list {
+.itemsList {
     /*background-color: #fff;*/
     background-color: rgba(255, 255, 255, 0);
     padding: 20px;
@@ -99,14 +51,14 @@
     width: 100%;
 }
 
-.list-header {
+.listHeader {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 50%;
 }
 
-.sort-button {
+.sortButton {
     background-color: #fff;
     border: none;
     cursor: pointer;
@@ -119,7 +71,7 @@
     font-weight: bold;
 }
 
-.pagination-button {
+.paginationButton {
     background-color: #fff;
     border: none;
     cursor: pointer;
@@ -128,7 +80,7 @@
 }
 
 /* EmailDetails page */
-.horizontal-menu {
+.horizontalMenu {
     background-color: #fff;
     padding: 10px 20px;
     display: flex;
@@ -136,7 +88,7 @@
     align-items: center;
 }
 
-.action-button {
+.actionButton {
     padding: 10px 15px;
     /*background-color: #007bff;*/
     /*color: #fff;*/
@@ -144,11 +96,11 @@
     cursor: pointer;
 }
 
-.email-details h2 {
+.emailDetails h2 {
     padding: 10px 20px;
 }
 
-.email-content {
+.emailContent {
     background-color: #fff;
     padding: 20px;
     margin-top: 20px;
@@ -160,7 +112,7 @@
     margin-top: 20px;
 }
 
-.compose-popup {
+.composePopup {
     background-color: #fff;
     padding: 20px;
     border-radius: 5px;
