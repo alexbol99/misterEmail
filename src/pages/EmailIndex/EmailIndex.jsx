@@ -1,13 +1,14 @@
 import React, {useEffect, useState} from "react";
 import {useLocation, useParams} from "react-router";
 import {useSearchParams} from "react-router-dom";
-import EmailPreviewList from "../components/EmailPreviewList.jsx";
-import AsideMenu from "../components/AsideMenu.jsx";
-import EmailDetails from "../components/EmailDetails.jsx";
-import {mailModelService} from "../services/mail-model.service.js";
+import AsideMenu from "../../layout/aside/AsideMenu.jsx";
+import {mailModelService} from "../../services/mail-model.service.js";
 
-import EmailCompose from "../components/EmailCompose.jsx";
-import Header from "../components/Header.jsx";
+import EmailCompose from "../../components/EmailCompose/EmailCompose.jsx";
+import Header from "../../layout/header/Header.jsx";
+
+import styles from "./EmailIndex.module.css";
+import Main from "../../layout/main/Main.jsx";
 
 function EmailIndex() {
     const [mails, setMails] = useState(null)
@@ -26,7 +27,7 @@ function EmailIndex() {
 
     useEffect(() => {
         fetchMails()
-    }, [filterBy, sortBy])
+    }, [filterBy, sortBy, params])
 
     async function fetchMails() {
         try {
@@ -138,32 +139,26 @@ function EmailIndex() {
 
     return (
         <React.Fragment>
-            <div className="email-index">
+            <div className={styles.emailIndex}>
                 <Header setContextFilter={setContextFilter} />
-                <main>
-                    <AsideMenu />
-                    {params.mailId ?
-                        <EmailDetails id={params.mailId}
-                                      toogleIsViewed={toogleIsViewed}
-                                      toggleIsDeleted={toggleIsDeleted}
-                        /> :
-                        mails && <EmailPreviewList mails={mails}
-                                                   pathname={filterBy.pathname}
-                                                   pageNum={filterBy.pageNum}
-                                                   toggleSelectAll={toggleSelectAll}
-                                                   toggleIsSelected={toggleIsSelected}
-                                                   toggleIsStarred={toggleIsStarred}
-                                                   toogleIsViewed={toogleIsViewed}
-                                                   toggleSelectedItemsIsDeleted={toggleSelectedItemsIsDeleted}
-                                                   deletedSelectedItems={deletedSelectedItems}
-                                                   onPrevPageButtonClick={setPrevPage}
-                                                   onNextPageButtonClick={setNextPage}
-                                                   toggleSortByDate={toggleSortByDate}
-                                                   toggleSortBySubject={toggleSortBySubject}
-                        />
-                    }
-                </main>
-
+                <AsideMenu />
+                <Main mails={mails}
+                      filterBy={filterBy}
+                      mailId={params.mailId}
+                      pathname={filterBy.pathname}
+                      pageNum={filterBy.pageNum}
+                      toggleSelectAll={toggleSelectAll}
+                      toggleIsSelected={toggleIsSelected}
+                      toggleIsStarred={toggleIsStarred}
+                      toogleIsViewed={toogleIsViewed}
+                      toggleIsDeleted={toggleIsDeleted}
+                      toggleSelectedItemsIsDeleted={toggleSelectedItemsIsDeleted}
+                      deletedSelectedItems={deletedSelectedItems}
+                      onPrevPageButtonClick={setPrevPage}
+                      onNextPageButtonClick={setNextPage}
+                      toggleSortByDate={toggleSortByDate}
+                      toggleSortBySubject={toggleSortBySubject}
+                />
             </div>
             {searchParams.get("compose") && <EmailCompose/>}
         </React.Fragment>

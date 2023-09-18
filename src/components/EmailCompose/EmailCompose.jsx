@@ -1,10 +1,12 @@
 import {useEffect, useRef, useState} from "react";
-import {mailModelService} from "../services/mail-model.service.js";
+import {mailModelService} from "../../services/mail-model.service.js";
 import {useLocation, useNavigate} from "react-router";
 import {useSearchParams} from "react-router-dom";
+import styles from "./EmailCompose.module.css";
 
-function EmailCompose(props) {
+function EmailCompose() {
     const [mail, setMail] = useState(null)
+    const [isDraft, setIsDraft] = useState(true)
     const {pathname} = useLocation()
     const navigate = useNavigate()
     const [searchParams, _] = useSearchParams()
@@ -28,6 +30,12 @@ function EmailCompose(props) {
             updateMail(mailRef.current)
         }
     },[id])
+
+    useEffect(() => {
+        if (!isDraft) {
+            navigate(pathname)
+        }
+    }, [isDraft])
 
     async function createEmptyMail() {
         try {
@@ -68,15 +76,18 @@ function EmailCompose(props) {
     async function onSubmit(event) {
         event.preventDefault()
         await updateMail({...mail, Date: new Date().toLocaleString(), isDraft: false})
-        navigate(pathname)
+        setMail(prevMail => {
+            return {...mail, Date: new Date().toLocaleString(), isDraft: false}
+        })
+        setIsDraft(false)
     }
 
     if (!mail) return "Reading mail"
 
     return (
-        <div className="email-compose">
-            <div className="compose-popup">
-                <h2 className="compose-popup-title">
+        <div className={styles["email-compose"]}>
+            <div className={styles["compose-popup"]}>
+                <h2 className={styles["compose-popup-title"]}>
                     { id === "new" ? "New Message" : mail.Subject}
                 </h2>
                 <form onSubmit={onSubmit}>
@@ -84,7 +95,7 @@ function EmailCompose(props) {
                     <input type="text"
                            id="To"
                            name="To"
-                           className="compose-input"
+                           className={styles["compose-input"]}
                            placeholder="Recipient"
                            onChange={onChange}
                            value={mail.To}
@@ -95,19 +106,19 @@ function EmailCompose(props) {
                     <input type="text"
                            id="Subject"
                            name="Subject"
-                           className="compose-input"
+                           className={styles["compose-input"]}
                            placeholder="Subject"
                            onChange={onChange}
                            value={mail.Subject}
                     />
                     <textarea id="Body"
                               name="Body"
-                              className="compose-textarea"
+                              className={styles["compose-textarea"]}
                               placeholder="Compose your message..."
                               onChange={onChange}
                               value={mail.Body}
                     ></textarea>
-                    <button className="send-button">Send</button>
+                    <button className={styles["send-button"]}>Send</button>
                 </form>
             </div>
         </div>

@@ -1,0 +1,67 @@
+.emailPreviewContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.emailPreviewContainer aside {
+    display: flex;
+    align-items: center;
+}
+
+.emailPreviewItem {
+    display: flex;
+    /*flex-direction: row;*/
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    width: 100%;
+    cursor: pointer;
+    background-color: rgba(207,220,239,30%);
+}
+
+.emailPreviewItem:hover {
+    background-color: #cfdcef;
+}
+
+.emailPreviewItemUnread {
+    background-color: rgba(255,255,255,100%);
+    font-weight: bold;
+}
+
+.emailPreviewSelectCheckbox {
+    position: relative;
+    left: -40px;
+}
+
+.emailPreviewStar {
+    position: relative;
+    left: -20px;
+}
+
+.emailPreviewStarUnchecked {
+}
+
+.emailPreviewStarUnchecked::after {
+    content: "\2606";
+}
+
+.emailPreviewStarChecked {
+    color: gold;
+}
+
+.emailPreviewStarChecked::after {
+    content: "\2605";
+}
+
+.emailPreviewItemFrom {
+    flex: 4;
+}
+
+.emailPreviewItemContent {
+    flex: 8;
+}
+
+.emailPreviewItemDate {
+    flex: 1;
+}

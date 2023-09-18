@@ -1,0 +1,44 @@
+.list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 50%;
+}
+
+.sort-button {
+    background-color: #fff;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: bold;
+    /*color: #007bff;*/
+}
+
+.pagination {
+    font-weight: bold;
+}
+
+.pagination-button {
+    background-color: #fff;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: large;
+}
+
+/* EmailDetails page */
+.horizontal-menu {
+    background-color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.action-button {
+    padding: 10px 15px;
+    /*background-color: #007bff;*/
+    /*color: #fff;*/
+    border: none;
+    cursor: pointer;
+}

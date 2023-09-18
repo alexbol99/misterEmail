@@ -1,7 +1,7 @@
 
 import { Route, HashRouter as Router, Routes } from "react-router-dom";
-import { Home } from './pages/Home';
-import EmailIndex from "./pages/EmailIndex.jsx";
+import { Home } from './pages/Home/Home.jsx';
+import EmailIndex from "./pages/EmailIndex/EmailIndex.jsx";
 import predefined_mails from "./assets/data/mails.json"
 export function App() {
 
