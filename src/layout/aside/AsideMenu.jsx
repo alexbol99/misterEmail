@@ -1,7 +1,7 @@
 import React from "react";
 import {Link, NavLink, useSearchParams} from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faFileText, faInbox, faPaperPlane, faStar, faTrash} from "@fortawesome/free-solid-svg-icons";
+import {faFileText, faInbox, faPaperPlane, faStar, faTrash, faPen} from "@fortawesome/free-solid-svg-icons";
 import {useLocation} from "react-router";
 
 import styles from "./AsideMenu.module.css";
@@ -56,7 +56,7 @@ function AsideMenu(props) {
         <aside className={styles.asideMenu}>
             <button className={styles.composeButton}
                     onClick={onComposeButtonClick}>
-                Compose
+                <FontAwesomeIcon icon={faPen} />&nbsp; Compose
             </button>
             <ul className={styles.menuItems}>
                 {menu.map(item =>

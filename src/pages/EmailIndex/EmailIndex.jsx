@@ -27,7 +27,7 @@ function EmailIndex() {
 
     useEffect(() => {
         fetchMails()
-    }, [filterBy, sortBy])
+    }, [filterBy, sortBy, params])
 
     async function fetchMails() {
         try {

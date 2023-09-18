@@ -1,9 +1,21 @@
+.emailPreviewContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.emailPreviewContainer aside {
+    display: flex;
+    align-items: center;
+}
+
 .emailPreviewItem {
     display: flex;
-    flex-direction: row;
+    /*flex-direction: row;*/
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
+    width: 100%;
     cursor: pointer;
     background-color: rgba(207,220,239,30%);
 }
@@ -41,6 +53,7 @@
 .emailPreviewStarChecked::after {
     content: "\2605";
 }
+
 .emailPreviewItemFrom {
     flex: 4;
 }
@@ -50,5 +63,5 @@
 }
 
 .emailPreviewItemDate {
-    flex: 2;
+    flex: 1;
 }

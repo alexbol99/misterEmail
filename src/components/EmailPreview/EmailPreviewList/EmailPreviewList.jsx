@@ -4,7 +4,7 @@ import styles from "../EmailPreview.module.css";
 function EmailPreviewList({mails, pathname,
                               toggleIsSelected, toggleIsStarred, toogleIsViewed}) {
     return (
-        <div className={styles["email-preview"]}>
+        <main className={styles["email-preview"]}>
             <ul className={styles["items-list"]}>
                 {mails.map(mail =>
                     <EmailPreviewItem key={mail.id}
@@ -16,7 +16,7 @@ function EmailPreviewList({mails, pathname,
                     />
                 )}
             </ul>
-        </div>
+        </main>
     );
 }
 

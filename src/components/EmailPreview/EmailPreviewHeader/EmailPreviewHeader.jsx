@@ -9,7 +9,7 @@ function EmailPreviewHeader({mails, pathname, paginationParams,
                                 toggleSortByDate, toggleSortBySubject
                             }) {
     return (
-        <div className={styles["list-header"]} >
+        <header className={styles["list-header"]} >
             <input type="checkbox"
                    className={styles["select-all-checkbox"]}
                    onClick={(event) => toggleSelectAll(event.target.checked)}
@@ -58,7 +58,7 @@ function EmailPreviewHeader({mails, pathname, paginationParams,
                 >
                     &#8250;
                 </button>}
-        </div>
+        </header>
     );
 }
 

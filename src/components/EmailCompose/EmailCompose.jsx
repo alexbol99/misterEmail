@@ -4,8 +4,9 @@ import {useLocation, useNavigate} from "react-router";
 import {useSearchParams} from "react-router-dom";
 import styles from "./EmailCompose.module.css";
 
-function EmailCompose(props) {
+function EmailCompose() {
     const [mail, setMail] = useState(null)
+    const [isDraft, setIsDraft] = useState(true)
     const {pathname} = useLocation()
     const navigate = useNavigate()
     const [searchParams, _] = useSearchParams()
@@ -29,6 +30,12 @@ function EmailCompose(props) {
             updateMail(mailRef.current)
         }
     },[id])
+
+    useEffect(() => {
+        if (!isDraft) {
+            navigate(pathname)
+        }
+    }, [isDraft])
 
     async function createEmptyMail() {
         try {
@@ -69,7 +76,10 @@ function EmailCompose(props) {
     async function onSubmit(event) {
         event.preventDefault()
         await updateMail({...mail, Date: new Date().toLocaleString(), isDraft: false})
-        navigate(pathname)
+        setMail(prevMail => {
+            return {...mail, Date: new Date().toLocaleString(), isDraft: false}
+        })
+        setIsDraft(false)
     }
 
     if (!mail) return "Reading mail"

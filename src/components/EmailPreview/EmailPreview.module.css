@@ -1,7 +1,21 @@
-.items-list {
-    /*background-color: #fff;*/
+.emailPreviewContainer {
     background-color: rgba(255, 255, 255, 0);
     padding: 20px;
     margin-top: 20px;
     width: 100%;
+}
+
+.emailPreviewContainer header {
+    grid-area: h;
+}
+
+.emailIndex aside {
+    grid-area: a;
+    height: 100%;
+    background-color: transparent;
+}
+
+.emailPreviewContainer main {
+    grid-area: m;
+    height: 100%;
 }

@@ -20,7 +20,7 @@ function EmailPreview({mails, pathname, pageNum,
     },[pathname, pageNum])
 
     return (
-        <div className={styles["items-list"]}>
+        <div className={styles.emailPreviewContainer}>
             <EmailPreviewHeader mails={mails}
                                 pathname={pathname}
                                 paginationParams={paginationParams}
