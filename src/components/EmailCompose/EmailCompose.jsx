@@ -4,7 +4,7 @@ import {useLocation, useNavigate} from "react-router";
 import {useSearchParams} from "react-router-dom";
 import styles from "./EmailCompose.module.css";
 
-function EmailCompose() {
+function EmailCompose({saveUpdatedMail}) {
     const [mail, setMail] = useState(null)
     const [isDraft, setIsDraft] = useState(true)
     const {pathname} = useLocation()
@@ -27,7 +27,7 @@ function EmailCompose() {
         }
 
         return () => {
-            updateMail(mailRef.current)
+            saveUpdatedMail(mailRef.current)
         }
     },[id])
 

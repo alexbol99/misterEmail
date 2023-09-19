@@ -27,7 +27,7 @@ function EmailIndex() {
 
     useEffect(() => {
         fetchMails()
-    }, [filterBy, sortBy, params])
+    }, [filterBy, sortBy])
 
     async function fetchMails() {
         try {
@@ -109,6 +109,11 @@ function EmailIndex() {
         }
     }
 
+    async function saveUpdatedMail(mail) {
+        await mailModelService.update(mail)
+        fetchMails()
+    }
+
     function setContextFilter(event) {
         setFilterBy((prevFilterBy => {
             return {...prevFilterBy, filter: event.target.value}
@@ -160,7 +165,7 @@ function EmailIndex() {
                       toggleSortBySubject={toggleSortBySubject}
                 />
             </div>
-            {searchParams.get("compose") && <EmailCompose/>}
+            {searchParams.get("compose") && <EmailCompose saveUpdatedMail={saveUpdatedMail}/>}
         </React.Fragment>
     );
 }

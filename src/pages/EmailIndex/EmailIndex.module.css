@@ -15,10 +15,10 @@
 .emailIndex::after {
     content: "";
     background-image: url("../../assets/imgs/17.png");
-    background-size: cover; /* Adjust to your needs */
-    background-repeat: no-repeat; /* Adjust to your needs */
+    background-size: cover;
+    background-repeat: no-repeat;
     height: 80%;
-    opacity: 0.1; /* Adjust the opacity as needed */
+    opacity: 0.1;
     top: 100px;
     left: 0;
     bottom: 0;
@@ -41,80 +41,4 @@
     grid-area: m;
     height: 100%;
     /*background-color: gold;*/
-}
-
-.itemsList {
-    /*background-color: #fff;*/
-    background-color: rgba(255, 255, 255, 0);
-    padding: 20px;
-    margin-top: 20px;
-    width: 100%;
-}
-
-.listHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 50%;
-}
-
-.sortButton {
-    background-color: #fff;
-    border: none;
-    cursor: pointer;
-    text-decoration: none;
-    font-weight: bold;
-    /*color: #007bff;*/
-}
-
-.pagination {
-    font-weight: bold;
-}
-
-.paginationButton {
-    background-color: #fff;
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: large;
-}
-
-/* EmailDetails page */
-.horizontalMenu {
-    background-color: #fff;
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.actionButton {
-    padding: 10px 15px;
-    /*background-color: #007bff;*/
-    /*color: #fff;*/
-    border: none;
-    cursor: pointer;
-}
-
-.emailDetails h2 {
-    padding: 10px 20px;
-}
-
-.emailContent {
-    background-color: #fff;
-    padding: 20px;
-    margin-top: 20px;
-}
-
-.attachments {
-    background-color: #fff;
-    padding: 20px;
-    margin-top: 20px;
-}
-
-.composePopup {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
