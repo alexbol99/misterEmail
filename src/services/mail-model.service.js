@@ -1,7 +1,6 @@
 import {userService} from "./user.service.js";
 import {mailStorageService} from "./mail-storage.service.js";
 
-const STORAGE_KEY = 'mails'
 const numOnPage= 10
 const defaultFilterBy = {
     pathname: "/inbox",
@@ -22,7 +21,6 @@ export const mailModelService = {
     getById,
     create,
     update,
-    getPaginationParams,
     defaultSortBy,
     defaultFilterBy
 }
@@ -32,10 +30,11 @@ async function query(filterBy = defaultFilterBy, sortBy = defaultSortBy ) {
     let mails = await mailStorageService.get()
     let filteredMails = filterByPathName(mails, filterBy.pathname)
     if (filteredMails.length === 0) return []
-    let sortedMails = sortByAny(filteredMails, sortBy)
-    let [filteredAndSortedMails, lastPage] = filterByPage(sortedMails, filterBy.pageNum)
+    let paginationParams = getPaginationParams(filteredMails, filterBy.pageNum)
+    let filteredAndSortedMails = sortByAny(filteredMails, sortBy)
+    filteredAndSortedMails = filterByPage(filteredAndSortedMails, paginationParams)
     filteredAndSortedMails = filterByContext(filteredAndSortedMails, filterBy.filter)
-    return [filteredAndSortedMails, lastPage]
+    return [filteredAndSortedMails, paginationParams]
 }
 
 async function getById(id) {
@@ -43,13 +42,6 @@ async function getById(id) {
     let viewedMail = {...mail, isViewed: true}
     await mailStorageService.update(viewedMail)
     return viewedMail
-}
-
-async function getPaginationParams(pathname, pageNum) {
-    let mails = await mailStorageService.get()
-    let filteredMails = filterByPathName(mails, pathname)
-    const [start, end] = pageStartEnd(filteredMails, pageNum)
-    return [start, end, filteredMails.length]
 }
 
 function create(newMail = createNewMail()) {
@@ -89,16 +81,14 @@ function filterByPathName(mails, pathname) {
     return filtered_mails;
 }
 
-function pageStartEnd(mails, pageNum) {
+function getPaginationParams(mails, pageNum) {
     const start = numOnPage*pageNum
     const end = Math.min(numOnPage*(pageNum+1), mails.length)
-    return [start, end]
+    return {start, end, total: mails.length, isLastPage: start + numOnPage >= mails.length}
 }
 
-function filterByPage(mails, pageNum) {
-    const [start, end] = pageStartEnd(mails, pageNum)
-    const lastPage = start + numOnPage >= mails.length
-    return [mails.slice(start, end), lastPage]
+function filterByPage(mails, paginationParams) {
+    return mails.slice(paginationParams.start, paginationParams.end);
 }
 
 function sortByAny(mails, sortBy) {

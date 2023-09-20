@@ -33,12 +33,12 @@ function EmailPreviewItem({pathname, mail, saveUpdatedMail, toggleIsSelected}) {
             <aside>
                 <input className={styles.emailPreviewSelectCheckbox}
                        type="checkbox"
-                       onChange={event => onSelectItemCheckboxClick(mail)}
+                       onChange={() => onSelectItemCheckboxClick(mail)}
                        checked={mail.isSelected}
                 />
                 <span className={`${styles.emailPreviewStar} ${starCheckStyle}`}
                       title={mail.isStarred ? "Starred" : "Not starred"}
-                      onClick={event => onStarMailClick(mail)}
+                      onClick={() => onStarMailClick(mail)}
                 ></span>
             </aside>
 

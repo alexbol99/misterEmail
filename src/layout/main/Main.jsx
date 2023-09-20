@@ -3,7 +3,7 @@ import EmailPreview from "../../components/EmailPreview/EmailPreview.jsx";
 import {useParams} from "react-router";
 // import styles from "./Main.module.css";
 
-function Main({mails, filterBy,
+function Main({mails, filterBy, paginationParams,
                   toggleSelectAll, saveUpdatedMail,
                   toggleIsSelected,
                   toggleSelectedItemsAreDeleted, deleteSelectedItems,
@@ -20,7 +20,7 @@ function Main({mails, filterBy,
                 /> :
                 <EmailPreview mails={mails}
                               pathname={filterBy.pathname}
-                              pageNum={filterBy.pageNum}
+                              paginationParams={paginationParams}
                               toggleSelectAll={toggleSelectAll}
                               saveUpdatedMail={saveUpdatedMail}
                               toggleIsSelected={toggleIsSelected}

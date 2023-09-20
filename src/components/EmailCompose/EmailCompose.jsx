@@ -77,12 +77,12 @@ function EmailCompose({saveUpdatedMail}) {
         event.preventDefault()
         await updateMail({...mail, Date: new Date().toLocaleString(), isDraft: false})
         setMail(prevMail => {
-            return {...mail, Date: new Date().toLocaleString(), isDraft: false}
+            return {...prevMail, Date: new Date().toLocaleString(), isDraft: false}
         })
         setIsDraft(false)
     }
 
-    if (!mail) return "Reading mail"
+    if (!mail) return <div>"Loading mail"</div>
 
     return (
         <div className={styles["email-compose"]}>

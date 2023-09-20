@@ -13,10 +13,10 @@ import Main from "../../layout/main/Main.jsx";
 function EmailIndex() {
     const [mails, setMails] = useState(null)
     const {pathname} = useLocation()
-    const [searchParams, setSearchParams] = useSearchParams()
+    const [searchParams, _] = useSearchParams()
     const [filterBy, setFilterBy] = useState(mailModelService.defaultFilterBy)
     const [sortBy, setSortBy] = useState(mailModelService.defaultSortBy)
-    const [lastPage, setLastPage] = useState(false)
+    const [paginationParams, setPaginationParams] = useState(null)
 
     useEffect(() => {
         setFilterBy(prevFilterBy => {
@@ -30,9 +30,9 @@ function EmailIndex() {
 
     async function fetchMails() {
         try {
-            const [filteredMails, lastPage] = await mailModelService.query(filterBy, sortBy)
+            const [filteredMails, paginationParams] = await mailModelService.query(filterBy, sortBy)
             setMails(filteredMails)
-            setLastPage(lastPage)
+            setPaginationParams(paginationParams)
         } catch (err) {
             console.error(err.message)
             if (err.message === "Pagination error") {
@@ -43,7 +43,7 @@ function EmailIndex() {
         }
     }
 
-    function setPrevPage(dir) {
+    function setPrevPage() {
         if (filterBy.pageNum > 0) {
             setFilterBy(prevFilterBy => {
                 return {
@@ -54,7 +54,7 @@ function EmailIndex() {
     }
 
     function setNextPage() {
-        if (!lastPage) {
+        if (!paginationParams.isLastPage) {
             setFilterBy(prevFilterBy => {
                 return {...prevFilterBy, pageNum: prevFilterBy.pageNum + 1
                 }
@@ -132,6 +132,7 @@ function EmailIndex() {
                 <AsideMenu />
                 <Main mails={mails}
                       filterBy={filterBy}
+                      paginationParams={paginationParams}
                       toggleSelectAll={toggleSelectAll}
                       saveUpdatedMail={saveUpdatedMail}
                       toggleIsSelected={toggleIsSelected}
