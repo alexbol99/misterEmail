@@ -4,7 +4,7 @@ import styles from "./EmailPreviewHeader.module.css";
 
 function EmailPreviewHeader({mails, pathname, paginationParams,
                                 toggleSelectAll,
-                                toggleSelectedItemsIsDeleted, deletedSelectedItems,
+                                toggleSelectedItemsAreDeleted, deleteSelectedItems,
                                 onPrevPageButtonClick, onNextPageButtonClick,
                                 toggleSortByDate, toggleSortBySubject
                             }) {
@@ -16,15 +16,15 @@ function EmailPreviewHeader({mails, pathname, paginationParams,
             />
             <button className=""
                     onClick={pathname==="/trash" ?
-                        deletedSelectedItems :
-                        toggleSelectedItemsIsDeleted}
+                        deleteSelectedItems :
+                        toggleSelectedItemsAreDeleted}
                     title={pathname==="/trash" ?
                         "Completely delete selected mails" :
                         "Move selected mails to Trash folder"}>
                 <FontAwesomeIcon icon={faTrash} />
             </button>
             {pathname === "/trash" &&
-                <button className="" onClick={toggleSelectedItemsIsDeleted}
+                <button className="" onClick={toggleSelectedItemsAreDeleted}
                         title="Restore selected mails from Trash folder">
                     <FontAwesomeIcon icon={faTrashRestore}/>
                 </button>

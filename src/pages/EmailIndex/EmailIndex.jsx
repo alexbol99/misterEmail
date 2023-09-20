@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {useLocation, useParams} from "react-router";
+import {useLocation} from "react-router";
 import {useSearchParams} from "react-router-dom";
 import AsideMenu from "../../layout/aside/AsideMenu.jsx";
 import {mailModelService} from "../../services/mail-model.service.js";
@@ -12,7 +12,6 @@ import Main from "../../layout/main/Main.jsx";
 
 function EmailIndex() {
     const [mails, setMails] = useState(null)
-    const params = useParams()
     const {pathname} = useLocation()
     const [searchParams, setSearchParams] = useSearchParams()
     const [filterBy, setFilterBy] = useState(mailModelService.defaultFilterBy)
@@ -62,37 +61,26 @@ function EmailIndex() {
             })
         }
     }
+
+    async function saveUpdatedMail(updatedMail) {
+        setMails(prevMails => prevMails.map(mail =>
+            mail.id === updatedMail.id ? updatedMail : mail
+        ))
+        await mailModelService.update(updatedMail)
+        fetchMails()
+    }
+
     function toggleIsSelected(id) {
         setMails(prevMails => prevMails.map(mail =>
             mail.id === id ? {...mail, isSelected: !mail.isSelected} : mail
         ))
     }
 
-    async function toggleSelectAll(checked) {
+    function toggleSelectAll(checked) {
         setMails(prevMails => prevMails.map(mail => {return {...mail, isSelected: checked}}))
-        // await mailModelService.update(updatedMail)
     }
 
-    async function toogleIsViewed(viewedMail) {
-        const updatedMail = {...viewedMail, isViewed: !viewedMail.isViewed}
-        await mailModelService.update(updatedMail)
-    }
-
-    async function toggleIsDeleted(mail) {
-        const updatedMail = {...mail, isDeleted: !mail.isDeleted}
-        await mailModelService.update(updatedMail)
-    }
-
-    async function toggleIsStarred(starredMail) {
-        const updatedMail = {...starredMail, isStarred: !starredMail.isStarred}
-        setMails(prevMails => prevMails.map(mail =>
-            mail === starredMail ? updatedMail : mail
-        ))
-        await mailModelService.update(updatedMail)
-        fetchMails()
-    }
-
-    async function toggleSelectedItemsIsDeleted() {
+    async function toggleSelectedItemsAreDeleted() {
         const selectedMails = mails.filter(mail => mail.isSelected)
         for (let mail of selectedMails) {
             const updatedMail = {...mail, isSelected: false, isDeleted: !mail.isDeleted}
@@ -101,17 +89,12 @@ function EmailIndex() {
         }
     }
 
-    async function deletedSelectedItems() {
+    async function deleteSelectedItems() {
         const selectedMails = mails.filter(mail => mail.isSelected)
         for (let mail of selectedMails) {
             await mailModelService.remove(mail.id)
             fetchMails()
         }
-    }
-
-    async function saveUpdatedMail(mail) {
-        await mailModelService.update(mail)
-        fetchMails()
     }
 
     function setContextFilter(event) {
@@ -149,16 +132,11 @@ function EmailIndex() {
                 <AsideMenu />
                 <Main mails={mails}
                       filterBy={filterBy}
-                      mailId={params.mailId}
-                      pathname={filterBy.pathname}
-                      pageNum={filterBy.pageNum}
                       toggleSelectAll={toggleSelectAll}
+                      saveUpdatedMail={saveUpdatedMail}
                       toggleIsSelected={toggleIsSelected}
-                      toggleIsStarred={toggleIsStarred}
-                      toogleIsViewed={toogleIsViewed}
-                      toggleIsDeleted={toggleIsDeleted}
-                      toggleSelectedItemsIsDeleted={toggleSelectedItemsIsDeleted}
-                      deletedSelectedItems={deletedSelectedItems}
+                      toggleSelectedItemsAreDeleted={toggleSelectedItemsAreDeleted}
+                      deleteSelectedItems={deleteSelectedItems}
                       onPrevPageButtonClick={setPrevPage}
                       onNextPageButtonClick={setNextPage}
                       toggleSortByDate={toggleSortByDate}

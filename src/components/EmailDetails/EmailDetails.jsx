@@ -10,7 +10,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "./EmailDetails.module.css"
 
-function EmailDetails({id, toogleIsViewed, toggleIsDeleted}) {
+function EmailDetails({id, saveUpdatedMail}) {
     const [mail, setMail] = useState(null)
     const {pathname} = useLocation()
     const navigate= useNavigate()
@@ -31,8 +31,12 @@ function EmailDetails({id, toogleIsViewed, toggleIsDeleted}) {
     }
 
     async function onMarkAsUnreadClick() {
-        await toogleIsViewed(mail)
+        await saveUpdatedMail({...mail, isViewed: !mail.isViewed})
         navigate(pathname.slice(0,pathname.indexOf(id)-1))
+    }
+
+    function toggleIsDeleted(mail) {
+        saveUpdatedMail({...mail, isDeleted: !mail.isDeleted})
     }
 
     if (!mail) return "Loading mail details"

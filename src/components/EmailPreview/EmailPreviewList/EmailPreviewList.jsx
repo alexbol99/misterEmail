@@ -1,8 +1,7 @@
 import EmailPreviewItem from "../EmailPreviewItem/EmailPreviewItem.jsx";
 import styles from "../EmailPreview.module.css";
 
-function EmailPreviewList({mails, pathname,
-                              toggleIsSelected, toggleIsStarred, toogleIsViewed}) {
+function EmailPreviewList({mails, pathname, toggleIsSelected, saveUpdatedMail}) {
     return (
         <main className={styles["email-preview"]}>
             <ul className={styles["items-list"]}>
@@ -11,8 +10,7 @@ function EmailPreviewList({mails, pathname,
                                       pathname={pathname}
                                       mail={mail}
                                       toggleIsSelected={toggleIsSelected}
-                                      toggleIsStarred={toggleIsStarred}
-                                      toogleIsViewed={toogleIsViewed}
+                                      saveUpdatedMail={saveUpdatedMail}
                     />
                 )}
             </ul>

@@ -2,13 +2,12 @@ import {useNavigate} from "react-router";
 import {useSearchParams} from "react-router-dom";
 import styles from "./EmailPreviewItem.module.css";
 
-function EmailPreviewItem({pathname, mail,
-                              toggleIsSelected, toggleIsStarred, toogleIsViewed}) {
+function EmailPreviewItem({pathname, mail, saveUpdatedMail, toggleIsSelected}) {
     const navigate = useNavigate()
     const [_, setSearchParams] = useSearchParams()
 
     function onPreviewItemClick(mail) {
-        toogleIsViewed(mail)
+        saveUpdatedMail({...mail, isViewed: !mail.isViewed})
         if (pathname==="/drafts") {
             setSearchParams({"compose":mail.id})
         }
@@ -17,12 +16,13 @@ function EmailPreviewItem({pathname, mail,
         }
     }
 
-    function onSelectItemCheckboxClick(event, id) {
-        toggleIsSelected(id)
+    function onSelectItemCheckboxClick(mail) {
+        // saveUpdatedMail({...mail, isSelected: !mail.isSelected})
+        toggleIsSelected(mail.id)
     }
 
-    function onStarMailClick(event, id) {
-        toggleIsStarred(id)
+    function onStarMailClick(mail) {
+        saveUpdatedMail({...mail, isStarred: !mail.isStarred})
     }
 
     const itemIsViewed = mail.isViewed ? "" : styles.emailPreviewItemUnread;
@@ -33,12 +33,12 @@ function EmailPreviewItem({pathname, mail,
             <aside>
                 <input className={styles.emailPreviewSelectCheckbox}
                        type="checkbox"
-                       onChange={event => onSelectItemCheckboxClick(event, mail.id)}
+                       onChange={event => onSelectItemCheckboxClick(mail)}
                        checked={mail.isSelected}
                 />
                 <span className={`${styles.emailPreviewStar} ${starCheckStyle}`}
                       title={mail.isStarred ? "Starred" : "Not starred"}
-                      onClick={event => onStarMailClick(event, mail)}
+                      onClick={event => onStarMailClick(mail)}
                 ></span>
             </aside>
 

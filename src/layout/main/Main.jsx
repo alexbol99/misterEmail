@@ -1,33 +1,35 @@
 import EmailDetails from "../../components/EmailDetails/EmailDetails.jsx";
 import EmailPreview from "../../components/EmailPreview/EmailPreview.jsx";
+import {useParams} from "react-router";
 // import styles from "./Main.module.css";
 
-function Main({mails, filterBy, mailId,
-                  toggleSelectAll, toggleIsSelected, toggleIsStarred, toogleIsViewed, toggleIsDeleted,
-                  toggleSelectedItemsIsDeleted, deletedSelectedItems,
+function Main({mails, filterBy,
+                  toggleSelectAll, saveUpdatedMail,
+                  toggleIsSelected,
+                  toggleSelectedItemsAreDeleted, deleteSelectedItems,
                   onPrevPageButtonClick, onNextPageButtonClick,
                   toggleSortByDate, toggleSortBySubject
               }) {
+    const {mailId} = useParams()
+
     return (
         <main>
             {mailId ?
                 <EmailDetails id={mailId}
-                              toogleIsViewed={toogleIsViewed}
-                              toggleIsDeleted={toggleIsDeleted}
+                              saveUpdatedMail={saveUpdatedMail}
                 /> :
-                mails && <EmailPreview mails={mails}
-                                       pathname={filterBy.pathname}
-                                       pageNum={filterBy.pageNum}
-                                       toggleSelectAll={toggleSelectAll}
-                                       toggleIsSelected={toggleIsSelected}
-                                       toggleIsStarred={toggleIsStarred}
-                                       toogleIsViewed={toogleIsViewed}
-                                       toggleSelectedItemsIsDeleted={toggleSelectedItemsIsDeleted}
-                                       deletedSelectedItems={deletedSelectedItems}
-                                       onPrevPageButtonClick={onPrevPageButtonClick}
-                                       onNextPageButtonClick={onNextPageButtonClick}
-                                       toggleSortByDate={toggleSortByDate}
-                                       toggleSortBySubject={toggleSortBySubject}
+                <EmailPreview mails={mails}
+                              pathname={filterBy.pathname}
+                              pageNum={filterBy.pageNum}
+                              toggleSelectAll={toggleSelectAll}
+                              saveUpdatedMail={saveUpdatedMail}
+                              toggleIsSelected={toggleIsSelected}
+                              toggleSelectedItemsAreDeleted={toggleSelectedItemsAreDeleted}
+                              deleteSelectedItems={deleteSelectedItems}
+                              onPrevPageButtonClick={onPrevPageButtonClick}
+                              onNextPageButtonClick={onNextPageButtonClick}
+                              toggleSortByDate={toggleSortByDate}
+                              toggleSortBySubject={toggleSortBySubject}
                 />
             }
         </main>
