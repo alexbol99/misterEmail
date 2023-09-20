@@ -12,6 +12,7 @@ import Main from "../../layout/main/Main.jsx";
 
 function EmailIndex() {
     const [mails, setMails] = useState(null)
+    const [selectedMails, setSelectedMails] = useState([])
     const {pathname} = useLocation()
     const [searchParams, _] = useSearchParams()
     const [filterBy, setFilterBy] = useState(mailModelService.defaultFilterBy)
@@ -70,18 +71,24 @@ function EmailIndex() {
         fetchMails()
     }
 
-    function toggleIsSelected(id) {
-        setMails(prevMails => prevMails.map(mail =>
-            mail.id === id ? {...mail, isSelected: !mail.isSelected} : mail
-        ))
+    function toggleIsSelected(mail) {
+        setSelectedMails(prevSelectedMails => {
+            if (prevSelectedMails.includes(mail)) {
+                // remove from the list
+                return prevSelectedMails.filter(selectedMail => selectedMail !== mail)
+            }
+            else {
+                // add to the list
+                return [...prevSelectedMails, mail]
+            }
+        })
     }
 
     function toggleSelectAll(checked) {
-        setMails(prevMails => prevMails.map(mail => {return {...mail, isSelected: checked}}))
+        setSelectedMails(checked ? mails : [])
     }
 
     async function toggleSelectedItemsAreDeleted() {
-        const selectedMails = mails.filter(mail => mail.isSelected)
         for (let mail of selectedMails) {
             const updatedMail = {...mail, isSelected: false, isDeleted: !mail.isDeleted}
             await mailModelService.update(updatedMail)
@@ -90,7 +97,6 @@ function EmailIndex() {
     }
 
     async function deleteSelectedItems() {
-        const selectedMails = mails.filter(mail => mail.isSelected)
         for (let mail of selectedMails) {
             await mailModelService.remove(mail.id)
             fetchMails()
@@ -133,6 +139,7 @@ function EmailIndex() {
                 <Main mails={mails}
                       filterBy={filterBy}
                       paginationParams={paginationParams}
+                      selectedMails={selectedMails}
                       toggleSelectAll={toggleSelectAll}
                       saveUpdatedMail={saveUpdatedMail}
                       toggleIsSelected={toggleIsSelected}

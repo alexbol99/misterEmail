@@ -4,6 +4,7 @@ import styles from "./EmailPreview.module.css";
 
 function EmailPreview({
                           mails, pathname, paginationParams,
+                          selectedMails,
                           toggleSelectAll, saveUpdatedMail,
                           toggleIsSelected,
                           toggleSelectedItemsAreDeleted, deleteSelectedItems,
@@ -30,6 +31,7 @@ function EmailPreview({
 
             <EmailPreviewList pathname={pathname}
                               mails={mails}
+                              selectedMails={selectedMails}
                               saveUpdatedMail={saveUpdatedMail}
                               toggleIsSelected={toggleIsSelected}
             />

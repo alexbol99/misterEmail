@@ -106,10 +106,6 @@ function sortByAny(mails, sortBy) {
 function dateSorterAscending(a,b) {return new Date(a.Date) - new Date(b.Date)}
 function dateSorterDescending(a,b) {return new Date(b.Date) - new Date(a.Date)}
 
-function sortByDate(mails, sorter = dateSorterAscending) {
-    return mails.sort(sorter)
-}
-
 function subjectSorterAscending(a, b) {
     if (a.Subject < b.Subject) {
         return 1
@@ -128,10 +124,6 @@ function subjectSorterDescending(a, b) {
         return 1
     }
     return 0
-}
-
-function sortBySubject(mails, sorter = subjectSorterAscending) {
-    return mails.sort(sorter)
 }
 
 function filterByContext(mails, str) {
@@ -155,8 +147,6 @@ function createNewMail(mailTo="", subject="", body="" ) {
         isDraft: true,
         isViewed: true,
         isStarred: false,
-        isSelected: false,
-        isSent: false,
         isDeleted: false
     }
 }

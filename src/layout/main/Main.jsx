@@ -4,6 +4,7 @@ import {useParams} from "react-router";
 // import styles from "./Main.module.css";
 
 function Main({mails, filterBy, paginationParams,
+                  selectedMails,
                   toggleSelectAll, saveUpdatedMail,
                   toggleIsSelected,
                   toggleSelectedItemsAreDeleted, deleteSelectedItems,
@@ -21,6 +22,7 @@ function Main({mails, filterBy, paginationParams,
                 <EmailPreview mails={mails}
                               pathname={filterBy.pathname}
                               paginationParams={paginationParams}
+                              selectedMails={selectedMails}
                               toggleSelectAll={toggleSelectAll}
                               saveUpdatedMail={saveUpdatedMail}
                               toggleIsSelected={toggleIsSelected}

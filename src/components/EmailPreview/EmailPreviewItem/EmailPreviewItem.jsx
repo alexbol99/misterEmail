@@ -2,7 +2,7 @@ import {useNavigate} from "react-router";
 import {useSearchParams} from "react-router-dom";
 import styles from "./EmailPreviewItem.module.css";
 
-function EmailPreviewItem({pathname, mail, saveUpdatedMail, toggleIsSelected}) {
+function EmailPreviewItem({pathname, mail, isSelected, saveUpdatedMail, toggleIsSelected}) {
     const navigate = useNavigate()
     const [_, setSearchParams] = useSearchParams()
 
@@ -14,11 +14,6 @@ function EmailPreviewItem({pathname, mail, saveUpdatedMail, toggleIsSelected}) {
         else {
             navigate(`${mail.id}`)
         }
-    }
-
-    function onSelectItemCheckboxClick(mail) {
-        // saveUpdatedMail({...mail, isSelected: !mail.isSelected})
-        toggleIsSelected(mail.id)
     }
 
     function onStarMailClick(mail) {
@@ -33,8 +28,8 @@ function EmailPreviewItem({pathname, mail, saveUpdatedMail, toggleIsSelected}) {
             <aside>
                 <input className={styles.emailPreviewSelectCheckbox}
                        type="checkbox"
-                       onChange={() => onSelectItemCheckboxClick(mail)}
-                       checked={mail.isSelected}
+                       onChange={() => toggleIsSelected(mail)}
+                       checked={isSelected}
                 />
                 <span className={`${styles.emailPreviewStar} ${starCheckStyle}`}
                       title={mail.isStarred ? "Starred" : "Not starred"}
