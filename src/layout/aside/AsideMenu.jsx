@@ -1,5 +1,5 @@
 import React from "react";
-import {Link, NavLink, useSearchParams} from "react-router-dom";
+import {NavLink, useSearchParams} from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faFileText, faInbox, faPaperPlane, faStar, faTrash, faPen} from "@fortawesome/free-solid-svg-icons";
 import {useLocation} from "react-router";
