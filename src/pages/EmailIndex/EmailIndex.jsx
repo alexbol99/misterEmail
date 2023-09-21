@@ -18,6 +18,7 @@ function EmailIndex() {
     const [filterBy, setFilterBy] = useState(mailModelService.defaultFilterBy)
     const [sortBy, setSortBy] = useState(mailModelService.defaultSortBy)
     const [paginationParams, setPaginationParams] = useState(null)
+    const [asideMenuExpanded, setAsideMenuExpanded] = useState(true)
 
     useEffect(() => {
         setFilterBy(prevFilterBy => {
@@ -90,10 +91,11 @@ function EmailIndex() {
 
     async function toggleSelectedItemsAreDeleted() {
         for (let mail of selectedMails) {
-            const updatedMail = {...mail, isSelected: false, isDeleted: !mail.isDeleted}
+            const updatedMail = {...mail, isDeleted: !mail.isDeleted}
             await mailModelService.update(updatedMail)
             fetchMails()
         }
+        setSelectedMails([])
     }
 
     async function deleteSelectedItems() {
@@ -120,6 +122,10 @@ function EmailIndex() {
             })
     }
 
+    function toggleExpandMenu() {
+        setAsideMenuExpanded(prevExpanded => !prevExpanded)
+    }
+
     function toggleSortBySubject() {
         setSortBy(
             prevSortBy => {
@@ -131,11 +137,15 @@ function EmailIndex() {
             })
     }
 
+    const asideMenuExpandStyle = asideMenuExpanded ? styles.expanded : styles.shrunk;
     return (
         <React.Fragment>
-            <div className={styles.emailIndex}>
-                <Header setContextFilter={setContextFilter} />
-                <AsideMenu />
+            <div className={`${styles.emailIndex} ${asideMenuExpandStyle}`}>
+                <Header setContextFilter={setContextFilter}
+                        toggleExpandMenu={toggleExpandMenu}
+                />
+                <AsideMenu expanded={asideMenuExpanded}
+                />
                 <Main mails={mails}
                       filterBy={filterBy}
                       paginationParams={paginationParams}

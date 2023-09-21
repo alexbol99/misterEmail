@@ -33,18 +33,19 @@ const menu = [
         icon: faTrash,
     },
 ]
-function MenuItem({to, name, icon, selected}) {
+function MenuItem({to, name, icon, selected, expanded}) {
     return (
-        <li className={selected ? styles.menuItemSelected : ""}>
+        <li className={`${styles.menuItem} ${styles.itemLink} ${selected ? styles.itemLinkSelected : ""}`}>
             <NavLink to={to} title={name} >
-                <FontAwesomeIcon icon={icon} />&nbsp; {name}
+                <FontAwesomeIcon icon={icon} />&nbsp;
+                {expanded && <span className={styles.title}>{name}</span>}
             </NavLink>
         </li>
     )
 
 }
 
-function AsideMenu(props) {
+function AsideMenu({expanded}) {
     const [_, setSearchParams] = useSearchParams()
     const {pathname} = useLocation()
 
@@ -54,9 +55,11 @@ function AsideMenu(props) {
 
     return (
         <aside className={styles.asideMenu}>
-            <button className={styles.composeButton}
+            <button className={`${styles.menuItem} ${styles.itemComposeButton}`}
                     onClick={onComposeButtonClick}>
-                <FontAwesomeIcon icon={faPen} />&nbsp; Compose
+                <FontAwesomeIcon icon={faPen} />
+                &nbsp;
+                {expanded && <span>Compose</span>}
             </button>
             <ul className={styles.menuItems}>
                 {menu.map(item =>
@@ -66,6 +69,7 @@ function AsideMenu(props) {
                         name={item.name}
                         icon={item.icon}
                         selected={pathname===item.to}
+                        expanded={expanded}
                     />
                 )}
             </ul>

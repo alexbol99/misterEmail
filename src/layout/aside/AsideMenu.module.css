@@ -1,7 +1,7 @@
 .asideMenu {
     background-color: #fff;
     padding: 20px;
-    width: 250px;
+    width: 100%;
 }
 
 .menuItems {
@@ -9,34 +9,48 @@
     padding: 0;
 }
 
-.menuItems li {
+.menuItem {
     margin-bottom: 10px;
-    padding: 10px;
+    padding: 15px 15px;
     cursor: pointer;
+    border: none;
+    border-radius: 25px;
+    font-weight: bold;
+    font-size: 16px;
 }
 
-.menuItems li:hover {
+.itemComposeButton {
+    background-color: #007bff;
+    color: #fff;
+    width: 100%;
+}
+
+.itemComposeButton span {
+    margin-left: 8px;
+}
+
+.itemLink {
+    width: 50px;
+}
+
+.itemLink:hover {
     background-color: rgba(207,220,239,50%);
 }
 
-.menuItems a {
+.itemLink a {
     display: block;
     width: 100%;
+}
+
+.itemLink a:hover {
     text-decoration: none;
 }
 
-.menuItemSelected {
-    background-color: rgba(207,220,239,50%);
+.itemLink .title {
+    margin-left: 8px;
 }
 
-.composeButton {
-    padding: 15px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 16px;
+.itemLinkSelected {
+    background-color: rgba(207,220,239,50%);
 }
 

@@ -21,9 +21,15 @@
     color: #fff;
 }
 
-.appHeader h1.logo {
+a.active{
+    color: #fff;
+    text-decoration: none;
+}
+
+.logo {
     font-size: 24px;
     font-weight: bold;
+    color: #fff;
 }
 
 .searchBox {

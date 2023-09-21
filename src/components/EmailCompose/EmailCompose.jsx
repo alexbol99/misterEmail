@@ -15,6 +15,13 @@ function EmailCompose({saveUpdatedMail}) {
     const id = searchParams.get("compose")
 
     useEffect(() => {
+        const intervalId = setInterval(() => {
+            saveUpdatedMail(mailRef.current)
+        }, 5000)
+
+        return () => clearInterval(intervalId)
+    }, [])
+    useEffect(() => {
         // Update the mailRef whenever state changes
         mailRef.current = mail;
     }, [mail]);
