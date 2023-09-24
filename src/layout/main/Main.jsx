@@ -1,7 +1,7 @@
 import EmailDetails from "../../components/EmailDetails/EmailDetails.jsx";
 import EmailPreview from "../../components/EmailPreview/EmailPreview.jsx";
 import {useParams} from "react-router";
-// import styles from "./Main.module.css";
+import styles from "./Main.module.css";
 
 function Main({mails, filterBy, paginationParams,
                   selectedMails,
@@ -14,7 +14,7 @@ function Main({mails, filterBy, paginationParams,
     const {mailId} = useParams()
 
     return (
-        <main>
+        <main className={styles.mainPanel}>
             {mailId ?
                 <EmailDetails id={mailId}
                               saveUpdatedMail={saveUpdatedMail}

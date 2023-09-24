@@ -117,6 +117,7 @@ function EmailCompose({saveUpdatedMail}) {
                            placeholder="Subject"
                            onChange={onChange}
                            value={mail.Subject}
+                           dir="auto"
                     />
                     <textarea id="Body"
                               name="Body"
@@ -124,6 +125,7 @@ function EmailCompose({saveUpdatedMail}) {
                               placeholder="Compose your message..."
                               onChange={onChange}
                               value={mail.Body}
+                              dir="auto"
                     ></textarea>
                     <button className={styles["send-button"]}>Send</button>
                 </form>

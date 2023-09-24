@@ -44,3 +44,18 @@ a.active{
     justify-self: end;
     gap: 20px;
 }
+
+@media only screen and (max-width: 620px) {
+    .appHeader {
+        overflow-x: hidden;
+        padding: 10px 0px;
+    }
+
+    .logo {
+        display: none;
+    }
+
+    .breadcrumbs {
+        display: none;
+    }
+}

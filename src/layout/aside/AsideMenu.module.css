@@ -2,35 +2,39 @@
     background-color: #fff;
     padding: 20px;
     width: 100%;
+    border: lightblue solid 1px;
+    border-radius: 10px;
 }
 
 .menuItems {
     list-style-type: none;
     padding: 0;
+    box-sizing: border-box;
+    justify-items: center;
 }
 
 .menuItem {
     margin-bottom: 10px;
-    padding: 15px 15px;
+    padding: 10px 15px;
     cursor: pointer;
     border: none;
     border-radius: 25px;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 14px;
+    width: 100%;
 }
 
 .itemComposeButton {
     background-color: #007bff;
     color: #fff;
-    width: 100%;
 }
 
 .itemComposeButton span {
     margin-left: 8px;
+    font-weight: bold;
 }
 
 .itemLink {
-    width: 50px;
 }
 
 .itemLink:hover {
@@ -54,3 +58,32 @@
     background-color: rgba(207,220,239,50%);
 }
 
+@media only screen and (max-width: 620px) {
+    .asideMenu {
+        border: none;
+    }
+
+    .itemLink:hover {
+        background-color: #fff;
+    }
+
+    .itemLinkSelected {
+        background-color: #fff;
+    }
+
+    .menuItem {
+        padding: 0;
+    }
+
+    .itemComposeButton {
+        background-color: #fff;
+        color: orangered;
+        box-shadow: 3px 3px #cccccc;
+        position: absolute;
+        bottom: 80px;
+        right: 20px;
+        width: 120px;
+        padding: 8px;
+    }
+
+}

@@ -14,7 +14,7 @@ function EmailPreviewHeader({mails, pathname, paginationParams,
                    className={styles["select-all-checkbox"]}
                    onClick={(event) => toggleSelectAll(event.target.checked)}
             />
-            <button className=""
+            <button className={styles["delete-selected-items"]}
                     onClick={pathname==="/trash" ?
                         deleteSelectedItems :
                         toggleSelectedItemsAreDeleted}
@@ -24,7 +24,8 @@ function EmailPreviewHeader({mails, pathname, paginationParams,
                 <FontAwesomeIcon icon={faTrash} />
             </button>
             {pathname === "/trash" &&
-                <button className="" onClick={toggleSelectedItemsAreDeleted}
+                <button className={styles["restore-selected-items"]}
+                        onClick={toggleSelectedItemsAreDeleted}
                         title="Restore selected mails from Trash folder">
                     <FontAwesomeIcon icon={faTrashRestore}/>
                 </button>

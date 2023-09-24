@@ -2,22 +2,18 @@
 /* EmailIndex page */
 .emailIndex {
     position: relative;
-    height: 100%;
+    height: 98%;
     display: grid;
-    /*grid-template-columns: minmax(200px,1fr) 5fr;*/
+    grid-template-columns: 50px 150px auto;
     grid-template-rows: auto 1fr;
-    grid-template-areas:
-            "h h"
-            "a m";
     gap: 10px;
 }
 
 .expanded {
-    grid-template-columns: minmax(200px,1fr) 5fr;
 }
 
 .shrunk {
-    grid-template-columns: minmax(60px,1fr) 5fr;
+    grid-template-columns: 80px 0 auto;
 }
 
 .emailIndex::after {
@@ -36,17 +32,47 @@
 }
 
 .emailIndex header {
-    grid-area: h;
+    grid-area: 1 / 1 / span 1 / span 3;
 }
 
 .emailIndex aside {
-    grid-area: a;
+    grid-area: 2 / 1 / span 1 / span 2;
     height: 100%;
     background-color: transparent;
 }
 
 .emailIndex main {
-    grid-area: m;
+    grid-area: 2 / 3 / span 1 / span 1;
     height: 100%;
-    /*background-color: gold;*/
 }
+
+/* Styling for small screens */
+@media only screen and (max-width: 620px) {
+    .emailIndex {
+        position: relative;
+        height: 100%;
+        display: grid;
+        grid-template-rows: auto 1fr;
+        gap: 10px;
+    }
+
+    .expanded {
+        grid-template-columns: 50px 60% auto;
+    }
+
+    .shrunk {
+        grid-template-columns: 1fr 0 auto;
+    }
+
+    .emailIndex aside {
+        grid-area: 2 / 1 / span 1 / span 2;
+        background-color: rgba(255, 255, 255, 100%);
+        z-index: 10;
+    }
+
+    .emailIndex main {
+        grid-area: 2 / 2 / span 1 / span 2;
+        height: 100%;
+    }
+}
+

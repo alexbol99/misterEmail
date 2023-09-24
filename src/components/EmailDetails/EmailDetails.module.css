@@ -1,5 +1,26 @@
 /* EmailDetails page */
-.horizontal-menu {
+.emailDetailsContainer {
+    display: grid;
+    grid-template-columns: auto 1fr 1fr;
+    grid-template-rows: auto 1fr 1fr auto;
+    grid-template-areas:
+    "back header header"
+    "back subject subject"
+    "back address date"
+    "back content content";
+}
+
+.header {
+    grid-area: header;
+    background-color: rgba(207,220,239,30%);
+    padding: 10px 16px;
+}
+
+.goBackButton {
+    grid-area: back;
+}
+
+.horizontalMenu {
     background-color: #fff;
     padding: 10px 20px;
     display: flex;
@@ -7,22 +28,36 @@
     align-items: center;
 }
 
-.action-button {
+.actionButton {
     padding: 10px 15px;
-    /*background-color: #007bff;*/
-    /*color: #fff;*/
     border: none;
     cursor: pointer;
 }
 
-.email-details h2 {
+.subject {
+    grid-area: subject;
     padding: 10px 20px;
 }
 
-.email-content {
+.from {
+    grid-area: address;
+    padding: 10px 20px;
+}
+
+.date {
+    grid-area: date;
+    justify-self: end;
+}
+
+.content {
+    grid-area: content;
     background-color: #fff;
     padding: 20px;
     margin-top: 20px;
+    height: 100%;
+    border-top: solid 1px rgba(207,220,239,100%);
+    background-color: transparent;
+    white-space: pre;
 }
 
 .attachments {

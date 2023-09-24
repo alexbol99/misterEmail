@@ -39,41 +39,55 @@ function EmailDetails({id, saveUpdatedMail}) {
         saveUpdatedMail({...mail, isDeleted: !mail.isDeleted})
     }
 
-    if (!mail) return "Loading mail details"
+    if (!mail) return (<div className={styles.emailDetailsContainer}>Loading mail details</div>)
 
     return (
-        <div className={styles["email-details"]}>
-            <nav className="breadcrumbs">
-                <button className="back-button" title="Back to the previous page"
-                        onClick={() => navigate(pathname.slice(0,pathname.indexOf(id)-1))}
-                >
-                    <FontAwesomeIcon icon={faLongArrowAltLeft} />
-                </button>
-                {/*<button className="action-button" title="Download">*/}
-                {/*    <FontAwesomeIcon icon={faDownload} />*/}
-                {/*</button>*/}
-                <button className={styles["action-button"]}
-                        title={mail.isDeleted ? "Restore from trash folder" : "Move to trash folder"}
-                        onClick={() => toggleIsDeleted(mail)}
-                >
-                    <FontAwesomeIcon
-                        icon={mail.isDeleted ? faTrashRestore : faTrash}
-                    />
-                </button>
-                <button className={styles["action-button"]} title="Mark as unread"
-                        onClick={() => onMarkAsUnreadClick()}
-                >
-                    <FontAwesomeIcon icon={faEnvelopeOpen} />
-                </button>
-            </nav>
+        <div className={styles.emailDetailsContainer}>
+            <header className={styles.header}>
+                <nav className="breadcrumbs">
+                    <button className="back-button" title="Back to the previous page"
+                            onClick={() => navigate(pathname.slice(0,pathname.indexOf(id)-1))}
+                    >
+                        <FontAwesomeIcon icon={faLongArrowAltLeft} />
+                    </button>
+                    {/*<button className="action-button" title="Download">*/}
+                    {/*    <FontAwesomeIcon icon={faDownload} />*/}
+                    {/*</button>*/}
+                    <button className={styles["actionButton"]}
+                            title={mail.isDeleted ? "Restore from trash folder" : "Move to trash folder"}
+                            onClick={() => toggleIsDeleted(mail)}
+                    >
+                        <FontAwesomeIcon
+                            icon={mail.isDeleted ? faTrashRestore : faTrash}
+                        />
+                    </button>
+                    <button className={styles["actionButton"]} title="Mark as unread"
+                            onClick={() => onMarkAsUnreadClick()}
+                    >
+                        <FontAwesomeIcon icon={faEnvelopeOpen} />
+                    </button>
+                </nav>
+            </header>
 
-            <h2>{mail?.Subject}</h2>
 
-            <div className={styles["email-content"]}>
-                {mail?.Body}
+
+            <h2 className={styles.subject} dir="auto">
+                {mail?.Subject}
+            </h2>
+
+            <p className={styles.from}>
+                {mail?.From}
+            </p>
+
+            <div className={styles.date}>
+                {mail?.Date}
             </div>
 
-            <section className={styles["attachments"]}>
+            <p className={styles.content} dir="auto">
+                {mail?.Body}
+            </p>
+
+            <section className={styles.attachments}>
             </section>
         </div>
     );

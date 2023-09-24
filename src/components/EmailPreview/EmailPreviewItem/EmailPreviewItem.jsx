@@ -8,7 +8,7 @@ function EmailPreviewItem({pathname, mail, isSelected, saveUpdatedMail, toggleIs
 
     function onPreviewItemClick(mail) {
         saveUpdatedMail({...mail, isViewed: !mail.isViewed})
-        if (pathname==="/drafts") {
+        if (pathname === "/drafts") {
             setSearchParams({"compose":mail.id})
         }
         else {
@@ -25,7 +25,7 @@ function EmailPreviewItem({pathname, mail, isSelected, saveUpdatedMail, toggleIs
 
     return (
         <div className={styles.emailPreviewContainer}>
-            <aside>
+            <div className={styles.asideIcons}>
                 <input className={styles.emailPreviewSelectCheckbox}
                        type="checkbox"
                        onChange={() => toggleIsSelected(mail)}
@@ -35,7 +35,7 @@ function EmailPreviewItem({pathname, mail, isSelected, saveUpdatedMail, toggleIs
                       title={mail.isStarred ? "Starred" : "Not starred"}
                       onClick={() => onStarMailClick(mail)}
                 ></span>
-            </aside>
+            </div>
 
             <div className={`${styles.emailPreviewItem} ${itemIsViewed}`}
                 onClick={() => onPreviewItemClick(mail)}

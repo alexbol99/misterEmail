@@ -59,7 +59,7 @@ function AsideMenu({expanded}) {
                     onClick={onComposeButtonClick}>
                 <FontAwesomeIcon icon={faPen} />
                 &nbsp;
-                {expanded && <span>Compose</span>}
+                <span>Compose</span>
             </button>
             <ul className={styles.menuItems}>
                 {menu.map(item =>

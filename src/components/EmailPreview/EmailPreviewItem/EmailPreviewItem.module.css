@@ -4,7 +4,7 @@
     align-items: center;
 }
 
-.emailPreviewContainer aside {
+.asideIcons {
     display: flex;
     align-items: center;
 }
@@ -66,4 +66,41 @@
 
 .emailPreviewItemDate {
     flex: 1;
+}
+
+@media only screen and (max-width: 620px) {
+    .emailPreviewItem {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr auto;
+        grid-template-areas:
+             "from date"
+             "content content";
+        font-size: smaller;
+        padding: 10px 6px;
+    }
+
+    .emailPreviewItemFrom {
+        grid-area: from;
+        max-width: 100px;
+        text-wrap: nowrap;
+        text-overflow: clip ;
+    }
+
+    .emailPreviewItemContent {
+        grid-area: content;
+    }
+
+    .emailPreviewItemDate {
+        grid-area: date;
+        justify-self: end;
+    }
+
+    .asideIcons {
+        display: none;
+    }
+
+    ul {
+        padding-inline-start: 0px;
+    }
 }

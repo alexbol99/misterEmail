@@ -18,12 +18,13 @@ function EmailIndex() {
     const [filterBy, setFilterBy] = useState(mailModelService.defaultFilterBy)
     const [sortBy, setSortBy] = useState(mailModelService.defaultSortBy)
     const [paginationParams, setPaginationParams] = useState(null)
-    const [asideMenuExpanded, setAsideMenuExpanded] = useState(true)
+    const [asideMenuExpanded, setAsideMenuExpanded] = useState(window.screen.width > 620)
 
     useEffect(() => {
         setFilterBy(prevFilterBy => {
             return {...prevFilterBy, pathname: pathname}
         })
+        setAsideMenuExpanded(false  )
     }, [pathname])
 
     useEffect(() => {
