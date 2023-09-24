@@ -24,7 +24,9 @@ function EmailIndex() {
         setFilterBy(prevFilterBy => {
             return {...prevFilterBy, pathname: pathname}
         })
-        setAsideMenuExpanded(false  )
+        if (window.screen.width < 620) {
+            setAsideMenuExpanded(false  )
+        }
     }, [pathname])
 
     useEffect(() => {
