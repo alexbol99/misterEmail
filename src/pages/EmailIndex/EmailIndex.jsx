@@ -108,6 +108,12 @@ function EmailIndex() {
 
     async function toggleSelectedItemsAreDeleted() {
         // TODO: Promise.all and then fetch
+        // let promises = selectedMails.map(mail =>
+        //     mailModelService.update({...mail, isDeleted: !mail.isDeleted})
+        // )
+        // await Promise.all(promises)
+        // fetchMails()
+
         for (let mail of selectedMails) {
             const updatedMail = {...mail, isDeleted: !mail.isDeleted}
             await mailModelService.update(updatedMail)
