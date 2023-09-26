@@ -33,19 +33,21 @@ const menu = [
         icon: faTrash,
     },
 ]
-function MenuItem({to, name, icon, selected, expanded}) {
+function MenuItem({to, name, icon, selected, expanded, unreadCounter}) {
     return (
         <li className={`${styles.menuItem} ${styles.itemLink} ${selected ? styles.itemLinkSelected : ""}`}>
             <NavLink to={to} title={name} >
                 <FontAwesomeIcon icon={icon} />&nbsp;
                 {expanded && <span className={styles.title}>{name}</span>}
+                {expanded && name === "Inbox" && unreadCounter > 1 &&
+                    <span className={styles.unreadCounter}>{unreadCounter}</span>}
             </NavLink>
         </li>
     )
 
 }
 
-function AsideMenu({expanded}) {
+function AsideMenu({expanded, unreadCounter}) {
     const [_, setSearchParams] = useSearchParams()
     const {pathname} = useLocation()
 
@@ -70,6 +72,7 @@ function AsideMenu({expanded}) {
                         icon={item.icon}
                         selected={pathname===item.to}
                         expanded={expanded}
+                        unreadCounter={unreadCounter}
                     />
                 )}
             </ul>

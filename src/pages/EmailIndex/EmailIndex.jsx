@@ -21,6 +21,7 @@ function EmailIndex() {
     const [filterBy, setFilterBy] = useState(mailModelService.defaultFilterBy)
     const [sortBy, setSortBy] = useState(mailModelService.defaultSortBy)
     const [paginationParams, setPaginationParams] = useState(null)
+    const [unreadCounter, setUnreadCounter] = useState(0)
     const [asideMenuExpanded, setAsideMenuExpanded] = useState(utilService.isNarrowDevice())
 
     useEffect(() => {
@@ -38,9 +39,10 @@ function EmailIndex() {
 
     async function fetchMails() {
         try {
-            const [filteredMails, paginationParams] = await mailModelService.query(filterBy, sortBy)
+            const [filteredMails, paginationParams, unreadCounter] = await mailModelService.query(filterBy, sortBy)
             setMails(filteredMails)
             setPaginationParams(paginationParams)
+            setUnreadCounter(unreadCounter)
         } catch (err) {
             console.error(err.message)
             if (err.message === "Pagination error") {
@@ -158,6 +160,7 @@ function EmailIndex() {
                         toggleExpandMenu={toggleExpandMenu}
                 />
                 <AsideMenu expanded={asideMenuExpanded}
+                           unreadCounter={unreadCounter}
                 />
                 <Main mails={mails}
                       filterBy={filterBy}

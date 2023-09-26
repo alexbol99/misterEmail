@@ -7,7 +7,7 @@ function EmailPreviewItem({pathname, mail, isSelected, saveUpdatedMail, toggleIs
     const [_, setSearchParams] = useSearchParams()
 
     function onPreviewItemClick(mail) {
-        saveUpdatedMail({...mail, isViewed: !mail.isViewed})
+        saveUpdatedMail({...mail, isViewed: true})
         if (pathname === "/drafts") {
             setSearchParams({"compose":mail.id})
         }

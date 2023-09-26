@@ -20,7 +20,7 @@
     border: none;
     border-radius: 25px;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 16px;
     width: 100%;
 }
 
@@ -54,6 +54,10 @@
     margin-left: 8px;
 }
 
+.itemLink .unreadCounter {
+    float: right;
+}
+
 .itemLinkSelected {
     background-color: rgba(207,220,239,50%);
 }
@@ -84,10 +88,13 @@
         color: orangered;
         box-shadow: 3px 3px #cccccc;
         position: absolute;
-        bottom: 80px;
+        bottom: 20%;
         right: 20px;
         width: 120px;
         padding: 8px;
     }
 
+    .itemLink .unreadCounter {
+        display: none;
+    }
 }
