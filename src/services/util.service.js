@@ -2,7 +2,8 @@
 export const utilService = {
     makeId,
     saveToStorage,
-    loadFromStorage
+    loadFromStorage,
+    isNarrowDevice
 }
 
 function makeId(length = 5) {
@@ -16,10 +17,13 @@ function makeId(length = 5) {
 
 function saveToStorage(key, value) {
     localStorage.setItem(key, JSON.stringify(value))
-    // localStorage[key] = JSON.stringify(value);
 }
 
 function loadFromStorage(key, defaultValue = null) {
     var value = localStorage[key] || defaultValue;
     return JSON.parse(value);
+}
+
+function isNarrowDevice() {
+    return window.screen.width > 620
 }

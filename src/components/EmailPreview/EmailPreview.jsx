@@ -15,7 +15,7 @@ function EmailPreview({
     if (!mails) return <div>Loading mails ...</div>
 
     return (
-        <div className={styles.emailPreviewContainer}>
+        <div className={styles.emailsPreviewContainer}>
             <EmailPreviewHeader mails={mails}
                                 pathname={pathname}
                                 paginationParams={paginationParams}

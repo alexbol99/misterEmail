@@ -2,3 +2,9 @@
     border: lightblue solid 1px;
     border-radius: 10px;
 }
+
+@media only screen and (max-width: 620px) {
+    .mainPanel {
+        border: none;
+    }
+}

@@ -41,7 +41,9 @@ function EmailPreviewItem({pathname, mail, isSelected, saveUpdatedMail, toggleIs
                 onClick={() => onPreviewItemClick(mail)}
             >
                 <div className={styles.emailPreviewItemFrom}>
-                    {["/sent", "/drafts"].includes(pathname) ? `To:${mail.To.split('@')[0]}` : mail.From.split('@')[0]}
+                    {["/sent", "/drafts", "/trash"].includes(pathname) ?
+                        `To:${mail.To.split('@')[0]}` :
+                        mail.From.split('@')[0]}
                 </div>
                 <div className={styles.emailPreviewItemContent}>
                     {mail.Subject}

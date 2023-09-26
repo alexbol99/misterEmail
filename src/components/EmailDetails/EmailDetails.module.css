@@ -1,13 +1,16 @@
 /* EmailDetails page */
 .emailDetailsContainer {
     display: grid;
+    height: 90vh;
+    /*width: 85vw;*/
     grid-template-columns: auto 1fr 1fr;
-    grid-template-rows: auto 1fr 1fr auto;
+    grid-template-rows: auto 1fr 1fr 20fr;
     grid-template-areas:
     "back header header"
     "back subject subject"
     "back address date"
     "back content content";
+    align-items: center;
 }
 
 .header {
@@ -47,17 +50,22 @@
 .date {
     grid-area: date;
     justify-self: end;
+    margin-right: 20px;
 }
 
 .content {
     grid-area: content;
-    background-color: #fff;
+    /*min-width: 0;*/
     padding: 20px;
     margin-top: 20px;
+    margin-right: 20px;
     height: 100%;
     border-top: solid 1px rgba(207,220,239,100%);
     background-color: transparent;
     white-space: pre;
+    overflow-y: scroll;
+    overflow-x: auto;
+    text-wrap: wrap;
 }
 
 .attachments {

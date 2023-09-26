@@ -16,11 +16,14 @@ function EmailCompose({saveUpdatedMail}) {
 
     useEffect(() => {
         const intervalId = setInterval(() => {
-            saveUpdatedMail(mailRef.current)
+            if (mailRef.current !== mail) {
+                saveUpdatedMail(mailRef.current)
+            }
         }, 5000)
 
         return () => clearInterval(intervalId)
     }, [])
+
     useEffect(() => {
         // Update the mailRef whenever state changes
         mailRef.current = mail;

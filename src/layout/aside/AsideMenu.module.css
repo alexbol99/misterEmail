@@ -63,6 +63,10 @@
         border: none;
     }
 
+    /*.menuItems {*/
+    /*    padding: 10px;*/
+    /*}*/
+
     .itemLink:hover {
         background-color: #fff;
     }

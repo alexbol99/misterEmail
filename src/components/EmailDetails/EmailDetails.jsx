@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {useLocation, useNavigate} from "react-router";
 import {mailModelService} from "../../services/mail-model.service.js";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import {
     faLongArrowAltLeft,
     faTrash,
@@ -9,6 +10,7 @@ import {
     faTrashRestore
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "./EmailDetails.module.css"
+import {userService} from "../../services/user.service.js";
 
 function EmailDetails({id, saveUpdatedMail}) {
     const [mail, setMail] = useState(null)
@@ -72,19 +74,19 @@ function EmailDetails({id, saveUpdatedMail}) {
 
 
             <h2 className={styles.subject} dir="auto">
-                {mail?.Subject}
+                {mail.Subject}
             </h2>
 
             <p className={styles.from}>
-                {mail?.From}
+                {userService.currentUser === mail.To ? mail.From : mail.To}
             </p>
 
             <div className={styles.date}>
-                {mail?.Date}
+                {mail.Date}
             </div>
 
             <p className={styles.content} dir="auto">
-                {mail?.Body}
+                {mail.Body}
             </p>
 
             <section className={styles.attachments}>

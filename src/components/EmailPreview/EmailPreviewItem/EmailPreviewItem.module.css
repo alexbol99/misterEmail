@@ -33,12 +33,12 @@
 
 .emailPreviewSelectCheckbox {
     position: relative;
-    left: -40px;
+    left: -20px;
 }
 
 .emailPreviewStar {
     position: relative;
-    left: -20px;
+    left: -10px;
 }
 
 .emailPreviewStarUnchecked {
@@ -101,6 +101,6 @@
     }
 
     ul {
-        padding-inline-start: 0px;
+        padding-inline-start: 0;
     }
 }

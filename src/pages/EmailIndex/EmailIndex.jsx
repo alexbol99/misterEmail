@@ -9,6 +9,9 @@ import Header from "../../layout/header/Header.jsx";
 
 import styles from "./EmailIndex.module.css";
 import Main from "../../layout/main/Main.jsx";
+import {utilService} from "../../services/util.service.js";
+import {UserMessage} from "../../ui/UserMessage/UserMessage.jsx";
+import {showErrorMsg, showSuccessMsg} from "../../services/event-bus.service.js";
 
 function EmailIndex() {
     const [mails, setMails] = useState(null)
@@ -18,13 +21,13 @@ function EmailIndex() {
     const [filterBy, setFilterBy] = useState(mailModelService.defaultFilterBy)
     const [sortBy, setSortBy] = useState(mailModelService.defaultSortBy)
     const [paginationParams, setPaginationParams] = useState(null)
-    const [asideMenuExpanded, setAsideMenuExpanded] = useState(window.screen.width > 620)
+    const [asideMenuExpanded, setAsideMenuExpanded] = useState(utilService.isNarrowDevice())
 
     useEffect(() => {
         setFilterBy(prevFilterBy => {
             return {...prevFilterBy, pathname: pathname}
         })
-        if (window.screen.width < 620) {
+        if (!utilService.isNarrowDevice()) {
             setAsideMenuExpanded(false  )
         }
     }, [pathname])
@@ -71,8 +74,15 @@ function EmailIndex() {
         setMails(prevMails => prevMails.map(mail =>
             mail.id === updatedMail.id ? updatedMail : mail
         ))
-        await mailModelService.update(updatedMail)
-        fetchMails()
+        try {
+            await mailModelService.update(updatedMail)
+            fetchMails()
+            // showSuccessMsg("Updated email saved successfully")
+        }
+        catch(err) {
+            showErrorMsg("Error occurred while saving email")
+        }
+
     }
 
     function toggleIsSelected(mail) {
@@ -164,6 +174,7 @@ function EmailIndex() {
                       toggleSortBySubject={toggleSortBySubject}
                 />
             </div>
+            <UserMessage />
             {searchParams.get("compose") && <EmailCompose saveUpdatedMail={saveUpdatedMail}/>}
         </React.Fragment>
     );
