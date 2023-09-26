@@ -38,7 +38,7 @@ function EmailDetails({id, saveUpdatedMail}) {
     }
 
     function toggleIsDeleted(mail) {
-        saveUpdatedMail({...mail, isDeleted: !mail.isDeleted})
+        saveUpdatedMail({...mail, isDeleted: !mail.isDeleted}, "Messages moved to Trash folder")
     }
 
     if (!mail) return (<div className={styles.emailDetailsContainer}>Loading mail details</div>)

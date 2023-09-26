@@ -72,14 +72,16 @@ function EmailIndex() {
         }
     }
 
-    async function saveUpdatedMail(updatedMail) {
+    async function saveUpdatedMail(updatedMail, message = "") {
         setMails(prevMails => prevMails.map(mail =>
             mail.id === updatedMail.id ? updatedMail : mail
         ))
         try {
             await mailModelService.update(updatedMail)
             fetchMails()
-            // showSuccessMsg("Updated email saved successfully")
+            if (message) {
+                showSuccessMsg(message)
+            }
         }
         catch(err) {
             showErrorMsg("Error occurred while saving email")
@@ -105,6 +107,7 @@ function EmailIndex() {
     }
 
     async function toggleSelectedItemsAreDeleted() {
+        // TODO: Promise.all and then fetch
         for (let mail of selectedMails) {
             const updatedMail = {...mail, isDeleted: !mail.isDeleted}
             await mailModelService.update(updatedMail)
@@ -114,6 +117,7 @@ function EmailIndex() {
     }
 
     async function deleteSelectedItems() {
+        // TODO: Promise.all and then fetch
         for (let mail of selectedMails) {
             await mailModelService.remove(mail.id)
             fetchMails()

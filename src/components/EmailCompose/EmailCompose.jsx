@@ -11,35 +11,22 @@ function EmailCompose({saveUpdatedMail}) {
     const navigate = useNavigate()
     const [searchParams, _] = useSearchParams()
     const mailRef = useRef(mail);
+    const refTimeout = useRef(null)
 
     const id = searchParams.get("compose")
-
-    useEffect(() => {
-        const intervalId = setInterval(() => {
-            if (mailRef.current !== mail) {
-                saveUpdatedMail(mailRef.current)
-            }
-        }, 5000)
-
-        return () => clearInterval(intervalId)
-    }, [])
 
     useEffect(() => {
         // Update the mailRef whenever state changes
         mailRef.current = mail;
     }, [mail]);
 
-    useEffect( () => {
+    useEffect(() => {
         if (id === "new") {
             createEmptyMail()
         } else {
             fetchMailById(id)
         }
-
-        return () => {
-            saveUpdatedMail(mailRef.current)
-        }
-    },[id])
+    }, [id])
 
     useEffect(() => {
         if (!isDraft) {
@@ -68,28 +55,21 @@ function EmailCompose({saveUpdatedMail}) {
         }
     }
 
-    async function updateMail(mail) {
-        try {
-            await mailModelService.update(mail)
-        }
-        catch(err) {
-            console.log(err.message)
-            navigate(pathname)
-        }
-    }
-
     function onChange(event) {
         let { value, name: field } = event.target
         setMail((prev) => ({ ...prev, [field]: value }))
+        // save after timeout
+        clearTimeout(refTimeout.current)
+        refTimeout.current = setTimeout(() => {
+            saveUpdatedMail(mailRef.current, "Updated message saved automatically")
+        }, 5000)
     }
 
     async function onSubmit(event) {
         event.preventDefault()
-        await updateMail({...mail, Date: new Date().toLocaleString(), isDraft: false})
-        setMail(prevMail => {
-            return {...prevMail, Date: new Date().toLocaleString(), isDraft: false}
-        })
-        setIsDraft(false)
+        const updatedMail = {...mail, Date: new Date().toLocaleString(), isDraft: false}
+        saveUpdatedMail(updatedMail, "Message sent")
+        navigate(pathname)
     }
 
     if (!mail) return <div>"Loading mail"</div>
