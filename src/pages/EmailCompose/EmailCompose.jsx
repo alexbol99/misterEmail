@@ -9,7 +9,6 @@ import styles from "./EmailCompose.module.css";
 
 function EmailCompose() {
     const [mail, setMail] = useState(null)
-    const [isDraft, setIsDraft] = useState(true)
     const {pathname} = useLocation()
     const navigate = useNavigate()
     const [searchParams, _] = useSearchParams()
@@ -32,12 +31,6 @@ function EmailCompose() {
             }
         }
     }, [id])
-
-    useEffect(() => {
-        if (!isDraft) {
-            navigate(pathname)
-        }
-    }, [isDraft])
 
     async function createEmptyMail() {
         try {

@@ -127,12 +127,6 @@ function EmailIndex() {
         }
     }
 
-    function setContextFilter(event) {
-        setFilterBy((prevFilterBy => {
-            return {...prevFilterBy, filter: event.target.value}
-        }))
-    }
-
     function toggleSortByDate() {
         setSortBy(
             prevSortBy => {
@@ -142,10 +136,6 @@ function EmailIndex() {
                     subject: false
                 }
             })
-    }
-
-    function toggleExpandMenu() {
-        setAsideMenuExpanded(prevExpanded => !prevExpanded)
     }
 
     function toggleSortBySubject() {
