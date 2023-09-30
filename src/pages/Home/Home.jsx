@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import styles from "./Home.module.css";
 
-export function Home() {
+function Home() {
     return (
         <main className={styles.welcome}>
             <div className={styles.welcomeContainer}>
@@ -13,3 +13,5 @@ export function Home() {
         </main>
     )
 }
+
+export default Home;

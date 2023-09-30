@@ -1,11 +1,12 @@
 import {userService} from "./user.service.js";
 import {mailStorageService} from "./mail-storage.service.js";
+import predefined_mails from "../assets/data/mails.json"
 
 const numOnPage= 10
 const defaultFilterBy = {
     pathname: "/inbox",
     pageNum: 0,
-    filter: ""
+    text: ""
 }
 
 const defaultSortBy = {
@@ -22,20 +23,20 @@ export const mailModelService = {
     create,
     update,
     defaultSortBy,
-    defaultFilterBy
+    defaultFilterBy,
+    getUnreadCounter
 }
 
 
 async function query(filterBy = defaultFilterBy, sortBy = defaultSortBy ) {
     let mails = await mailStorageService.get()
-    const unreadCounter = getUnreadCounter(mails)
     let filteredMails = filterByPathName(mails, filterBy.pathname)
     if (filteredMails.length === 0) return []
     let paginationParams = getPaginationParams(filteredMails, filterBy.pageNum)
     let filteredAndSortedMails = sortByAny(filteredMails, sortBy)
     filteredAndSortedMails = filterByPage(filteredAndSortedMails, paginationParams)
-    filteredAndSortedMails = filterByContext(filteredAndSortedMails, filterBy.filter)
-    return [filteredAndSortedMails, paginationParams, unreadCounter]
+    filteredAndSortedMails = filterByContext(filteredAndSortedMails, filterBy.text)
+    return [filteredAndSortedMails, paginationParams]
 }
 
 async function getById(id) {
@@ -45,6 +46,13 @@ async function getById(id) {
     return viewedMail
 }
 
+async function getUnreadCounter() {
+    let mails = await mailStorageService.get()
+    return mails
+        .filter(mail => mail.To === userService.currentUser && !mail.isDeleted)
+        .reduce((acc, mail) => mail.isViewed ? acc : acc+1, 0)
+
+}
 function create(newMail = createNewMail()) {
     return mailStorageService.create(newMail)
 }
@@ -86,12 +94,6 @@ function getPaginationParams(mails, pageNum) {
     const start = numOnPage*pageNum
     const end = Math.min(numOnPage*(pageNum+1), mails.length)
     return {start, end, total: mails.length, isLastPage: start + numOnPage >= mails.length}
-}
-
-function getUnreadCounter(mails) {
-    return mails
-        .filter(mail => mail.To === userService.currentUser && !mail.isDeleted)
-        .reduce((acc, mail) => mail.isViewed ? acc : acc+1, 0)
 }
 
 function filterByPage(mails, paginationParams) {
@@ -158,7 +160,10 @@ function createNewMail(mailTo="", subject="", body="" ) {
     }
 }
 
-// function count
+if (!localStorage.getItem("mails")) {
+    localStorage.setItem("mails", JSON.stringify(predefined_mails))
+}
+
 
 
 

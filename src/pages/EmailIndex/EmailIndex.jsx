@@ -1,27 +1,24 @@
 import React, {useEffect, useState} from "react";
-import {useLocation} from "react-router";
-import {useSearchParams} from "react-router-dom";
-import AsideMenu from "../../layout/aside/AsideMenu.jsx";
-import {mailModelService} from "../../services/mail-model.service.js";
+import {Outlet, useLocation} from "react-router";
 
-import EmailCompose from "../../components/EmailCompose/EmailCompose.jsx";
-import Header from "../../layout/header/Header.jsx";
+import {mailModelService} from "../../services/mail-model.service.js";
+import {utilService} from "../../services/util.service.js";
+import {showErrorMsg, showSuccessMsg} from "../../services/event-bus.service.js";
+
+import EmailPreviewHeader from "../../components/EmailPreview/EmailPreviewHeader/EmailPreviewHeader.jsx";
+import EmailPreviewList from "../../components/EmailPreview/EmailPreviewList/EmailPreviewList.jsx";
 
 import styles from "./EmailIndex.module.css";
-import Main from "../../layout/main/Main.jsx";
-import {utilService} from "../../services/util.service.js";
-import {UserMessage} from "../../ui/UserMessage/UserMessage.jsx";
-import {showErrorMsg, showSuccessMsg} from "../../services/event-bus.service.js";
+import {useSearchParams} from "react-router-dom";
 
 function EmailIndex() {
     const [mails, setMails] = useState(null)
     const [selectedMails, setSelectedMails] = useState([])
     const {pathname} = useLocation()
-    const [searchParams, _] = useSearchParams()
     const [filterBy, setFilterBy] = useState(mailModelService.defaultFilterBy)
     const [sortBy, setSortBy] = useState(mailModelService.defaultSortBy)
     const [paginationParams, setPaginationParams] = useState(null)
-    const [unreadCounter, setUnreadCounter] = useState(0)
+    const [searchParams, _] = useSearchParams()
     const [asideMenuExpanded, setAsideMenuExpanded] = useState(utilService.isNarrowDevice())
 
     useEffect(() => {
@@ -35,21 +32,21 @@ function EmailIndex() {
 
     useEffect(() => {
         fetchMails()
-    }, [filterBy, sortBy])
+    }, [filterBy, sortBy, window.location.href])
+
+    useEffect( () => {
+        setFilterBy(prevFilterBy => {
+            return {...prevFilterBy, text: searchParams.get("text") || ""}
+        })
+    }, [searchParams])
 
     async function fetchMails() {
         try {
-            const [filteredMails, paginationParams, unreadCounter] = await mailModelService.query(filterBy, sortBy)
+            const [filteredMails, paginationParams] = await mailModelService.query(filterBy, sortBy)
             setMails(filteredMails)
             setPaginationParams(paginationParams)
-            setUnreadCounter(unreadCounter)
         } catch (err) {
             console.error(err.message)
-            if (err.message === "Pagination error") {
-                setFilterBy(prevFilterBy => {
-                    return {...prevFilterBy, pageNum: Math.max(prevFilterBy.pageNum - 1, 0)}
-                })
-            }
         }
     }
 
@@ -108,6 +105,12 @@ function EmailIndex() {
 
     async function toggleSelectedItemsAreDeleted() {
         // TODO: Promise.all and then fetch
+        // let promises = selectedMails.map(mail =>
+        //     mailModelService.update({...mail, isDeleted: !mail.isDeleted})
+        // )
+        // await Promise.all(promises)
+        // fetchMails()
+
         for (let mail of selectedMails) {
             const updatedMail = {...mail, isDeleted: !mail.isDeleted}
             await mailModelService.update(updatedMail)
@@ -124,12 +127,6 @@ function EmailIndex() {
         }
     }
 
-    function setContextFilter(event) {
-        setFilterBy((prevFilterBy => {
-            return {...prevFilterBy, filter: event.target.value}
-        }))
-    }
-
     function toggleSortByDate() {
         setSortBy(
             prevSortBy => {
@@ -139,10 +136,6 @@ function EmailIndex() {
                     subject: false
                 }
             })
-    }
-
-    function toggleExpandMenu() {
-        setAsideMenuExpanded(prevExpanded => !prevExpanded)
     }
 
     function toggleSortBySubject() {
@@ -156,33 +149,35 @@ function EmailIndex() {
             })
     }
 
-    const asideMenuExpandStyle = asideMenuExpanded ? styles.expanded : styles.shrunk;
+    if (!mails) return <div>Loading mails ...</div>
+
     return (
         <React.Fragment>
-            <div className={`${styles.emailIndex} ${asideMenuExpandStyle}`}>
-                <Header setContextFilter={setContextFilter}
-                        toggleExpandMenu={toggleExpandMenu}
+            <div className={styles.emailsPreviewContainer}>
+                <EmailPreviewHeader mails={mails}
+                                    pathname={pathname}
+                                    paginationParams={paginationParams}
+                                    toggleSelectAll={toggleSelectAll}
+                                    toggleSelectedItemsAreDeleted={toggleSelectedItemsAreDeleted}
+                                    deleteSelectedItems={deleteSelectedItems}
+                                    onPrevPageButtonClick={setPrevPage}
+                                    onNextPageButtonClick={setNextPage}
+                                    toggleSortByDate={toggleSortByDate}
+                                    toggleSortBySubject={toggleSortBySubject}
+
                 />
-                <AsideMenu expanded={asideMenuExpanded}
-                           unreadCounter={unreadCounter}
+
+                <EmailPreviewList pathname={pathname}
+                                  mails={mails}
+                                  selectedMails={selectedMails}
+                                  saveUpdatedMail={saveUpdatedMail}
+                                  toggleIsSelected={toggleIsSelected}
                 />
-                <Main mails={mails}
-                      filterBy={filterBy}
-                      paginationParams={paginationParams}
-                      selectedMails={selectedMails}
-                      toggleSelectAll={toggleSelectAll}
-                      saveUpdatedMail={saveUpdatedMail}
-                      toggleIsSelected={toggleIsSelected}
-                      toggleSelectedItemsAreDeleted={toggleSelectedItemsAreDeleted}
-                      deleteSelectedItems={deleteSelectedItems}
-                      onPrevPageButtonClick={setPrevPage}
-                      onNextPageButtonClick={setNextPage}
-                      toggleSortByDate={toggleSortByDate}
-                      toggleSortBySubject={toggleSortBySubject}
-                />
+
             </div>
-            <UserMessage />
-            {searchParams.get("compose") && <EmailCompose saveUpdatedMail={saveUpdatedMail}/>}
+
+
+            <Outlet />   {/* In Outlet we render ComposeEmail component */}
         </React.Fragment>
     );
 }
