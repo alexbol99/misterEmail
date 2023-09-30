@@ -34,6 +34,10 @@
     font-weight: bold;
 }
 
+.itemComposeButton a:hover {
+    text-decoration: none;
+}
+
 .itemLink {
 }
 

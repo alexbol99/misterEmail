@@ -1,10 +1,12 @@
-import React from "react";
-import {NavLink, useSearchParams} from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {useLocation} from "react-router";
+import {NavLink} from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faFileText, faInbox, faPaperPlane, faStar, faTrash, faPen} from "@fortawesome/free-solid-svg-icons";
-import {useLocation} from "react-router";
 
 import styles from "./AsideMenu.module.css";
+import {mailModelService} from "../../services/mail-model.service.js";
+import {utilService} from "../../services/util.service.js";
 
 const menu = [
     {
@@ -47,22 +49,32 @@ function MenuItem({to, name, icon, selected, expanded, unreadCounter}) {
 
 }
 
-function AsideMenu({expanded, unreadCounter}) {
-    const [_, setSearchParams] = useSearchParams()
+function AsideMenu() {
+    const [unreadCounter, setUnreadCounter] = useState(0)
+    const [expanded, _] = useState(utilService.isNarrowDevice())
     const {pathname} = useLocation()
 
-    function onComposeButtonClick() {
-        setSearchParams({"compose":"new"})
+    useEffect( () => {
+        getUnreadCounter()
+    })
+    async function getUnreadCounter() {
+        try {
+            const unreadCounter = await mailModelService.getUnreadCounter()
+            setUnreadCounter(unreadCounter)
+        } catch (err) {
+            console.error(err.message)
+        }
     }
 
     return (
         <aside className={styles.asideMenu}>
-            <button className={`${styles.menuItem} ${styles.itemComposeButton}`}
-                    onClick={onComposeButtonClick}>
-                <FontAwesomeIcon icon={faPen} />
-                &nbsp;
-                <span>Compose</span>
-            </button>
+            <div className={`${styles.menuItem} ${styles.itemComposeButton}`}>
+                <NavLink to={`${pathname}/?compose=new`} title="Compose new mail">
+                    <FontAwesomeIcon icon={faPen} />
+                    &nbsp;
+                    <span>Compose</span>
+                </NavLink>
+            </div>
             <ul className={styles.menuItems}>
                 {menu.map(item =>
                     <MenuItem
@@ -70,7 +82,7 @@ function AsideMenu({expanded, unreadCounter}) {
                         to={item.to}
                         name={item.name}
                         icon={item.icon}
-                        selected={pathname===item.to}
+                        selected={false}     // pathname===item.to}
                         expanded={expanded}
                         unreadCounter={unreadCounter}
                     />

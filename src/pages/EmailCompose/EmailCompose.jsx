@@ -1,10 +1,13 @@
 import {useEffect, useRef, useState} from "react";
-import {mailModelService} from "../../services/mail-model.service.js";
 import {useLocation, useNavigate} from "react-router";
 import {useSearchParams} from "react-router-dom";
+
+import {mailModelService} from "../../services/mail-model.service.js";
+import {showErrorMsg, showSuccessMsg} from "../../services/event-bus.service.js";
+
 import styles from "./EmailCompose.module.css";
 
-function EmailCompose({saveUpdatedMail}) {
+function EmailCompose() {
     const [mail, setMail] = useState(null)
     const [isDraft, setIsDraft] = useState(true)
     const {pathname} = useLocation()
@@ -21,10 +24,12 @@ function EmailCompose({saveUpdatedMail}) {
     }, [mail]);
 
     useEffect(() => {
-        if (id === "new") {
-            createEmptyMail()
-        } else {
-            fetchMailById(id)
+        if (id) {
+            if (id === "new") {
+                createEmptyMail()
+            } else {
+                fetchMailById(id)
+            }
         }
     }, [id])
 
@@ -55,6 +60,18 @@ function EmailCompose({saveUpdatedMail}) {
         }
     }
 
+    async function saveUpdatedMail(updatedMail, message = "") {
+        try {
+            await mailModelService.update(updatedMail)
+            if (message) {
+                showSuccessMsg(message)
+            }
+        }
+        catch(err) {
+            showErrorMsg("Error occurred while saving email")
+        }
+    }
+
     function onChange(event) {
         let { value, name: field } = event.target
         setMail((prev) => ({ ...prev, [field]: value }))
@@ -72,6 +89,7 @@ function EmailCompose({saveUpdatedMail}) {
         navigate(pathname)
     }
 
+    if (!id) return null
     if (!mail) return <div>"Loading mail"</div>
 
     return (

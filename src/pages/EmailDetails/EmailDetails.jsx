@@ -1,8 +1,11 @@
 import {useEffect, useState} from "react";
-import {useLocation, useNavigate} from "react-router";
-import {mailModelService} from "../../services/mail-model.service.js";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {useLocation, useNavigate, useParams} from "react-router";
 
+import {mailModelService} from "../../services/mail-model.service.js";
+import {userService} from "../../services/user.service.js";
+import {showErrorMsg, showSuccessMsg} from "../../services/event-bus.service.js";
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
     faLongArrowAltLeft,
     faTrash,
@@ -10,9 +13,9 @@ import {
     faTrashRestore
 } from "@fortawesome/free-solid-svg-icons";
 import styles from "./EmailDetails.module.css"
-import {userService} from "../../services/user.service.js";
 
-function EmailDetails({id, saveUpdatedMail}) {
+function EmailDetails() {
+    const {mailId} = useParams()
     const [mail, setMail] = useState(null)
     const {pathname} = useLocation()
     const navigate= useNavigate()
@@ -23,18 +26,30 @@ function EmailDetails({id, saveUpdatedMail}) {
 
     async function fetchMail(){
         try {
-            const mail = await mailModelService.getById(id)
+            const mail = await mailModelService.getById(mailId)
             setMail(mail)
         }
         catch(err) {
             console.error(err.message)
-            navigate(pathname.slice(0,pathname.indexOf(id)-1))
+            navigate(pathname.slice(0,pathname.indexOf(mailId)-1))
         }
     }
 
     async function onMarkAsUnreadClick() {
         await saveUpdatedMail({...mail, isViewed: !mail.isViewed})
-        navigate(pathname.slice(0,pathname.indexOf(id)-1))
+        navigate(pathname.slice(0,pathname.indexOf(mailId)-1))
+    }
+
+    async function saveUpdatedMail(updatedMail, message = "") {
+        try {
+            await mailModelService.update(updatedMail)
+            if (message) {
+                showSuccessMsg(message)
+            }
+        }
+        catch(err) {
+            showErrorMsg("Error occurred while saving email")
+        }
     }
 
     function toggleIsDeleted(mail) {
@@ -48,7 +63,7 @@ function EmailDetails({id, saveUpdatedMail}) {
             <header className={styles.header}>
                 <nav className="breadcrumbs">
                     <button className="back-button" title="Back to the previous page"
-                            onClick={() => navigate(pathname.slice(0,pathname.indexOf(id)-1))}
+                            onClick={() => navigate(pathname.slice(0,pathname.indexOf(mailId)-1))}
                     >
                         <FontAwesomeIcon icon={faLongArrowAltLeft} />
                     </button>

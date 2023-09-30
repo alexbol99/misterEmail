@@ -19,7 +19,6 @@ function createEventEmitter() {
 }
 
 export const eventBusService = createEventEmitter()
-console.log('eventBusService', eventBusService)
 
 
 ////////////////////////////////////////////////////

@@ -1,12 +1,27 @@
-import React from 'react';
+import {useSearchParams} from "react-router-dom";
+
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faBars} from "@fortawesome/free-solid-svg-icons";
-import styles from "./Header.module.css";
-import {NavLink} from "react-router-dom";
-import {useLocation} from "react-router";
+import styles from "./AppHeader.module.css";
 
-function Header({setContextFilter, toggleExpandMenu}) {
-    const {pathname} = useLocation()
+function AppHeader({toggleExpandMenu}) {
+    const [searchParams, setSearchParams] = useSearchParams()
+
+    function onContextSearchChange(event) {
+        const currentSearchText = event.target.value
+        if (searchParams.get("text") === null) {
+            setSearchParams(prev =>
+                ([...prev.entries(), ["text", currentSearchText]]))
+        }
+        else {
+            setSearchParams(prev => {
+                return [...prev.entries()]
+                    .map( ([key,value]) =>
+                        key === "text" ? [key, currentSearchText] : [key,value])
+            })
+        }
+    }
+
     return (
         <header className={styles.appHeader}>
             <section className={styles.logoSection}>
@@ -16,14 +31,15 @@ function Header({setContextFilter, toggleExpandMenu}) {
                 >
                     <FontAwesomeIcon icon={faBars}/>
                 </button>
-                <NavLink to={pathname}>
+                {/*<NavLink to={pathname}>*/}
                     <h1 className={styles.logo}>MisterEmail</h1>
-                </NavLink>
+                {/*</NavLink>*/}
             </section>
             <input type="text"
                    className={styles.searchBox}
                    placeholder="Start typing to search ..."
-                   onChange={setContextFilter}
+                   value={searchParams.get("text") || ""}
+                   onChange={onContextSearchChange}
             />
             <section className={styles.breadcrumbs}>
                 <a href="#">Help</a>
@@ -34,4 +50,4 @@ function Header({setContextFilter, toggleExpandMenu}) {
     );
 }
 
-export default Header;
+export default AppHeader;

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
-import { eventBusService } from "../../services/event-bus.service";
+import { eventBusService } from "../../services/event-bus.service.js";
 import styles from "./UserMessage.module.css";
 
-export function UserMessage() {
+function UserMessage() {
     const [msg, setMsg] = useState(null)
     // { txt: 'Im a user msg', type: 'error' }
     useEffect(() => {
@@ -27,3 +27,5 @@ export function UserMessage() {
         </div>
     )
 }
+
+export default UserMessage
