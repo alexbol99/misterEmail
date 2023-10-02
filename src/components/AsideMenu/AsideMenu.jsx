@@ -7,6 +7,7 @@ import {faFileText, faInbox, faPaperPlane, faStar, faTrash, faPen} from "@fortaw
 import styles from "./AsideMenu.module.css";
 import {mailModelService} from "../../services/mail-model.service.js";
 import {utilService} from "../../services/util.service.js";
+import {Drawer} from "@mui/material";
 
 const menu = [
     {
@@ -66,8 +67,22 @@ function AsideMenu() {
         }
     }
 
+    const toggleDrawer = (anchor, open) => (event) => {
+        // if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+        //     return;
+        // }
+        //
+        // setState({ ...state, [anchor]: open });
+    };
+
     return (
         <aside className={styles.asideMenu}>
+            <Drawer
+                variant="persistent"
+                anchor="left"
+                open={true}
+                onClose={toggleDrawer("left", false)}
+            >
             <div className={`${styles.menuItem} ${styles.itemComposeButton}`}>
                 <NavLink to={`${pathname}/?compose=new`} title="Compose new mail">
                     <FontAwesomeIcon icon={faPen} />
@@ -88,6 +103,7 @@ function AsideMenu() {
                     />
                 )}
             </ul>
+            </Drawer>
         </aside>
     );
 }
